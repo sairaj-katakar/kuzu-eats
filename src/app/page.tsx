@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import Navbar from "@/components/navbar/Navbar";
 import HeroSection from "@/components/hero/HeroSection";
 import TestimonialsCarousel from "@/components/testimonials/TestimonialsCarousel";
@@ -30,17 +29,9 @@ export default function HomePage() {
             </div>
             <div className="flex flex-wrap items-center gap-3 shrink-0">
               <Link
-                href="/about"
-                className="inline-flex items-center gap-2 rounded-full bg-orange-500 hover:bg-orange-600 px-6 py-3 text-sm font-bold text-white transition"
-              >
-                <span>About &amp; Calculator</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 hover:bg-white/20 px-6 py-3 text-sm font-semibold text-white transition"
-              >
-                <span>Contact Us</span>
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-600/30 hover:brightness-110 transition">
+                <span className="font-bold">Contact Us</span>
               </Link>
             </div>
           </div>
