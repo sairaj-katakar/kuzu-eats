@@ -10,124 +10,135 @@ import {
   ArrowRight,
   Sparkles,
   CheckCircle2,
+  ShoppingBag,
+  Heart,
 } from "lucide-react";
 
-const GROWTH_TABS = [
+const TABS = [
   {
     id: "ordering",
-    label: "0% Commission Ordering",
-    badge: "Keep 100% Profits",
-    headline: "Direct orders from your own menu—zero middleman cuts.",
+    label: "Direct Ordering",
+    badge: "Keep More Profits",
+    headline: "Your restaurant. Your menu. Your orders.",
     description:
-      "Turn hungry diners into direct customers with fast mobile-friendly ordering, instant order alerts, and full control over pricing and offers.",
+      "Build your own digital ordering experience. Let customers explore your dishes, place orders and connect directly with your restaurant.",
     highlights: [
-      "Keep every rupee of your dish margins",
-      "Update daily specials & availability in seconds",
-      "Smooth checkout designed for hungry guests",
+      "Direct customer ordering",
+      "Flexible menu and pricing",
+      "No third-party commission on direct orders",
     ],
-    metricLabel: "Average Partner Savings",
-    metricValue: "Up to ₹1.4L / mo",
+    metric: "0%",
+    metricLabel: "Commission on direct orders",
+    icon: ShoppingBag,
   },
   {
     id: "experience",
-    label: "Delightful Guest Flow",
+    label: "Guest Experience",
     badge: "Happy Diners",
-    headline: "Warm hospitality from the first tap to the last bite.",
+    headline: "Make every food experience memorable.",
     description:
-      "Whether guests dine in, pick up on the way home, or order for family gatherings, every touchpoint feels effortless and personal.",
+      "Create a smooth experience from discovering your menu to enjoying a meal at home or in your restaurant.",
     highlights: [
-      "Clear preparation updates & pickup readiness",
-      "Custom notes for spice level & dietary needs",
-      "Consistent brand look across mobile & desktop",
+      "Mobile-friendly digital menu",
+      "Convenient pickup and delivery flow",
+      "Personalized customer experience",
     ],
-    metricLabel: "Guest Satisfaction",
-    metricValue: "4.9 ★ Rating",
+    metric: "24/7",
+    metricLabel: "Online menu availability",
+    icon: Heart,
   },
   {
     id: "retention",
-    label: "Repeat Customer Growth",
-    badge: "Loyal Regulars",
-    headline: "Bring first-time food lovers back again and again.",
+    label: "Customer Growth",
+    badge: "Build Loyalty",
+    headline: "Turn first-time guests into regular customers.",
     description:
-      "Build lasting relationships with neighborhood foodies instead of renting visibility on crowded third-party apps.",
+      "Build direct customer relationships and encourage guests to return with offers, great service and memorable food.",
     highlights: [
-      "Encourage repeat orders with direct perks",
-      "Spot top-selling dishes and peak hours easily",
-      "Grow steady weekly revenue with confidence",
+      "Direct customer relationships",
+      "Special offers and promotions",
+      "Better understanding of customers",
     ],
-    metricLabel: "Repeat Order Lift",
-    metricValue: "Up to +60%",
+    metric: "+60%",
+    metricLabel: "Potential repeat-order improvement",
+    icon: TrendingUp,
   },
 ];
 
-const CLIENT_STEPS = [
+const STEPS = [
   {
     step: "01",
     title: "Showcase Your Kitchen",
-    text: "Present your signature dishes, chef story, and hygiene standards in a clean, appetizing layout.",
+    text: "Display your signature dishes, menu, restaurant story and brand identity.",
     icon: UtensilsCrossed,
   },
   {
     step: "02",
-    title: "Attract & Delight Guests",
-    text: "Give visitors an interactive, fast, and mobile-friendly experience that builds instant trust.",
+    title: "Connect With Guests",
+    text: "Give customers a simple and attractive way to explore and order.",
     icon: Users,
   },
   {
     step: "03",
-    title: "Grow Happy & Profitable",
-    text: "Retain full margins, earn repeat customers, and scale your restaurant at your own pace.",
+    title: "Grow Your Business",
+    text: "Build lasting relationships and encourage more direct orders.",
     icon: TrendingUp,
   },
 ];
 
 export default function HomeGrowthShowcase() {
-  const [selectedTabId, setSelectedTabId] = useState("ordering");
+  const [activeTab, setActiveTab] = useState("ordering");
 
-  const activeTab =
-    GROWTH_TABS.find((tab) => tab.id === selectedTabId) || GROWTH_TABS[0];
+  const selected = TABS.find((tab) => tab.id === activeTab) || TABS[0];
+  const ActiveIcon = selected.icon;
 
   return (
     <section
       id="growth-showcase"
-      className="py-16 sm:py-24 bg-gradient-to-b from-[#FFFBF5] via-[#FFF7ED] to-[#FFF5EA]"
+      className="relative overflow-hidden bg-gradient-to-b from-[#FFFBF5] via-[#FFF5E9] to-[#FFFBF5] py-20 sm:py-28"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+      <div className="pointer-events-none absolute -left-40 top-20 h-80 w-80 rounded-full bg-orange-200/30 blur-[100px]" />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.45 }}
-          className="text-center max-w-2xl mx-auto mb-10"
+          viewport={{ once: true }}
+          className="mx-auto mb-12 max-w-3xl text-center"
         >
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-100 border border-orange-200 px-4 py-1 text-xs font-bold uppercase tracking-wider text-orange-700 mb-3">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>Why Restaurants &amp; Diners Love Kuzueats</span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-100 px-4 py-2 text-xs font-bold uppercase tracking-wider text-orange-700">
+            <Sparkles className="h-4 w-4" />
+            The KuzuEats Advantage
           </span>
-          <h2 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl lg:text-5xl font-bold text-stone-900">
-            Designed to Attract Guests &amp;{" "}
-            <span className="text-orange-600">Keep Partners Smiling</span>
+
+          <h2 className="mt-5 font-[family-name:var(--font-playfair)] text-3xl font-bold leading-tight text-stone-900 sm:text-5xl">
+            Designed to Attract Guests.
+            <span className="block text-orange-600">
+              Built to Grow Restaurants.
+            </span>
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-stone-600">
-            Explore how Kuzueats pairs appetizing storytelling with practical
-            growth tools for restaurants and cafés.
+
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-stone-600 sm:text-base">
+            Everything your restaurant needs to create a strong digital
+            presence, connect with customers and grow independently.
           </p>
         </motion.div>
 
-        {/* Interactive Feature Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-8">
-          {GROWTH_TABS.map((tab) => {
-            const isActive = tab.id === activeTab.id;
+        {/* Interactive tabs */}
+        <div className="mb-8 flex flex-wrap justify-center gap-2">
+          {TABS.map((tab) => {
+            const isActive = activeTab === tab.id;
+
             return (
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setSelectedTabId(tab.id)}
-                className={`rounded-full px-4 sm:px-5 py-2.5 text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                onClick={() => setActiveTab(tab.id)}
+                aria-pressed={isActive}
+                className={`rounded-full px-5 py-3 text-xs font-bold transition-all sm:text-sm ${
                   isActive
-                    ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-md shadow-orange-500/25"
-                    : "bg-white text-stone-700 border border-orange-200/80 hover:border-orange-400 hover:text-orange-700"
+                    ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg shadow-orange-500/20"
+                    : "border border-orange-200 bg-white text-stone-700 hover:border-orange-400 hover:text-orange-600"
                 }`}
               >
                 {tab.label}
@@ -136,95 +147,114 @@ export default function HomeGrowthShowcase() {
           })}
         </div>
 
-        {/* Active Tab Spotlight Card */}
+        {/* Dynamic feature panel */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeTab.id}
-            initial={{ opacity: 0, y: 12 }}
+            key={selected.id}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.28 }}
-            className="rounded-3xl bg-white border border-orange-100 p-6 sm:p-9 shadow-lg shadow-orange-950/5 mb-14"
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="grid overflow-hidden rounded-[2rem] border border-orange-100 bg-white shadow-xl shadow-orange-950/5 lg:grid-cols-12"
           >
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 items-center">
-              <div className="lg:col-span-8">
-                <span className="inline-block rounded-full bg-amber-100 text-amber-800 px-3 py-1 text-xs font-bold mb-3">
-                  {activeTab.badge}
-                </span>
-                <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-stone-900 leading-snug">
-                  {activeTab.headline}
-                </h3>
-                <p className="mt-3 text-sm sm:text-base text-stone-600 leading-relaxed">
-                  {activeTab.description}
+            <div className="p-7 sm:p-10 lg:col-span-8">
+              <span className="inline-block rounded-full bg-orange-100 px-3 py-1.5 text-xs font-bold text-orange-700">
+                {selected.badge}
+              </span>
+
+              <h3 className="mt-5 max-w-2xl font-[family-name:var(--font-playfair)] text-2xl font-bold leading-tight text-stone-900 sm:text-4xl">
+                {selected.headline}
+              </h3>
+
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-stone-600 sm:text-base">
+                {selected.description}
+              </p>
+
+              <div className="mt-7 grid gap-3 sm:grid-cols-3">
+                {selected.highlights.map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-start gap-2 rounded-xl border border-orange-100 bg-[#FFFBF5] p-3 text-xs font-semibold leading-relaxed text-stone-700"
+                  >
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+
+              <Link
+                href="/about"
+                className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-orange-600 transition hover:gap-3"
+              >
+                Discover how it works
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            {/* Right metric panel */}
+            <div className="relative flex flex-col justify-between overflow-hidden bg-gradient-to-br from-stone-950 via-stone-900 to-orange-950 p-7 text-white sm:p-10 lg:col-span-4">
+              <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-orange-500/20 blur-3xl" />
+
+              <div className="relative">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-orange-400/20 bg-orange-500/20 text-orange-300">
+                  <ActiveIcon className="h-7 w-7" />
+                </div>
+
+                <p className="mt-8 text-xs font-bold uppercase tracking-widest text-orange-300">
+                  {selected.metricLabel}
                 </p>
 
-                <ul className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {activeTab.highlights.map((point) => (
-                    <li
-                      key={point}
-                      className="flex items-start gap-2 rounded-2xl bg-[#FFFBF5] border border-orange-100/90 p-3 text-xs sm:text-sm font-medium text-stone-700"
-                    >
-                      <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
+                <p className="mt-3 text-5xl font-extrabold tracking-tight">
+                  {selected.metric}
+                </p>
+
+                <p className="mt-4 text-sm leading-relaxed text-stone-300">
+                  A digital experience designed for independent restaurants,
+                  cafés and growing food businesses.
+                </p>
               </div>
 
-              <div className="lg:col-span-4 rounded-2xl bg-stone-950 text-white p-6 flex flex-col justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-wider text-amber-300 font-semibold">
-                    {activeTab.metricLabel}
-                  </p>
-                  <p className="mt-1.5 text-2xl sm:text-3xl font-extrabold text-white">
-                    {activeTab.metricValue}
-                  </p>
-                  <p className="mt-2 text-xs sm:text-sm text-stone-300 leading-relaxed">
-                    Built for independent restaurants, cafés, and multi-city
-                    kitchens across India.
-                  </p>
-                </div>
-
-                <div className="mt-6">
-                  <Link
-                    href="/contact"
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-3 text-sm font-bold text-white hover:brightness-110 transition"
-                  >
-                    <span>Start With Kuzueats</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              </div>
+              <Link
+                href="/contact"
+                className="relative mt-9 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-3.5 text-sm font-bold text-white transition hover:brightness-110"
+              >
+                Start With KuzuEats
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           </motion.div>
         </AnimatePresence>
 
-        {/* 3-Step Client Happiness Strip */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {CLIENT_STEPS.map((item, index) => {
+        {/* Three steps */}
+        <div className="mt-14 grid gap-5 md:grid-cols-3">
+          {STEPS.map((item, index) => {
             const Icon = item.icon;
+
             return (
               <motion.div
                 key={item.step}
-                initial={{ opacity: 0, y: 18 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
-                whileHover={{ y: -4 }}
-                className="rounded-2xl bg-white/95 border border-orange-100 p-6 shadow-sm hover:shadow-md transition-all"
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -6 }}
+                className="group rounded-2xl border border-orange-100 bg-white p-6 shadow-sm transition hover:shadow-xl hover:shadow-orange-950/5"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="h-11 w-11 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
+                <div className="flex items-center justify-between">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100 text-orange-600 transition group-hover:bg-orange-500 group-hover:text-white">
                     <Icon className="h-5 w-5" />
-                  </span>
+                  </div>
+
                   <span className="text-xs font-extrabold tracking-widest text-orange-400">
                     STEP {item.step}
                   </span>
                 </div>
-                <h3 className="text-lg font-extrabold text-stone-900">
+
+                <h3 className="mt-5 text-lg font-extrabold text-stone-900">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm text-stone-600 leading-relaxed">
+
+                <p className="mt-2 text-sm leading-7 text-stone-600">
                   {item.text}
                 </p>
               </motion.div>

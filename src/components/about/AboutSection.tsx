@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -10,6 +11,12 @@ import {
   Sparkles,
   ShieldCheck,
   TrendingUp,
+  ArrowUpRight,
+  CheckCircle2,
+  Store,
+  Users,
+  ShoppingBag,
+  Zap,
 } from "lucide-react";
 import { siteConfig } from "@/data/siteData";
 
@@ -18,195 +25,400 @@ const highlights = [
     icon: Utensils,
     title: "Online Ordering & Reservations",
     description:
-      "Direct orders and seamless table bookings under your own brand identity.",
+      "Accept direct food orders and table bookings through your own branded digital platform.",
+    tag: "Smart Ordering",
   },
   {
     icon: Clock,
     title: "Serve More Customers, Faster",
     description:
-      "Streamlined order flow built for local eateries and fast-growing food chains.",
+      "Manage incoming orders efficiently and deliver a smoother experience during busy hours.",
+    tag: "Save Time",
   },
   {
     icon: BarChart3,
-    title: "Actionable Analytics",
+    title: "Actionable Business Insights",
     description:
-      "Track order trends, popular dishes, and repeat customer engagement in real time.",
+      "Understand customer preferences, track popular dishes and discover growth opportunities.",
+    tag: "Grow Smarter",
   },
   {
     icon: HeartHandshake,
     title: "Zero Commission Drain",
     description:
-      "Keep your profit margins intact instead of losing heavy cuts to middlemen.",
+      "Keep more of your earnings with direct orders and transparent business operations.",
+    tag: "Keep Your Profit",
   },
 ];
 
 const QUICK_METRICS = [
-  { label: "Commission Fee", value: "0%" },
-  { label: "Order Ownership", value: "100%" },
-  { label: "Partner Onboarding", value: "Fast & Guided" },
+  { label: "Commission Fee", value: "0%", icon: Zap },
+  { label: "Order Ownership", value: "100%", icon: ShoppingBag },
+  { label: "Partner Onboarding", value: "Guided", icon: Users },
+];
+
+const focusPoints = [
+  "Complete ownership of your direct customer relationships",
+  "A simple and efficient online ordering experience",
+  "Better visibility into your restaurant's performance",
 ];
 
 const ABOUT_HERO_BG =
-  "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1800&q=80";
+  "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1800&q=85";
 
 export default function AboutSection() {
   const [bgSrc, setBgSrc] = useState(ABOUT_HERO_BG);
 
   return (
-    <section id="about" className="relative bg-[#FFFBF5] overflow-hidden">
-      {/* Top Hero Banner with Clear Culinary Background Image */}
-      <div className="relative py-20 sm:py-24 overflow-hidden border-b border-orange-100/80">
+    <section
+      id="about"
+      className="relative overflow-hidden bg-[#FFFBF5]"
+    >
+      {/* ================= HERO SECTION ================= */}
+
+      <div className="relative flex min-h-[430px] items-center justify-center overflow-hidden border-b border-orange-100 py-20 sm:min-h-[480px] sm:py-24">
+
         <img
           src={bgSrc}
-          alt="Kuzueats culinary dining atmosphere"
+          alt="Restaurant dining atmosphere"
           onError={() => setBgSrc(siteConfig.images.aboutShowcase)}
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-40 scale-105"
+          className="absolute inset-0 h-full w-full scale-105 object-cover"
         />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#FFF7ED]/65 via-[#FFF8EF]/75 to-[#FFFBF5]"
-        />
+
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FFF8EF]/90 via-[#FFF8EF]/85 to-[#FFFBF5]" />
+
+        <div className="absolute -left-24 top-20 h-72 w-72 rounded-full bg-orange-200/30 blur-[100px]" />
+        <div className="absolute -right-24 bottom-10 h-72 w-72 rounded-full bg-amber-200/30 blur-[100px]" />
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 35 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
-          className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center"
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="relative z-10 mx-auto max-w-4xl px-5 text-center"
         >
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 border border-orange-200 px-4 py-1 text-xs font-bold uppercase tracking-wider text-orange-700 mb-3 shadow-xs">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>Who We Are</span>
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white/90 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.18em] text-orange-700 shadow-sm">
+            <Sparkles className="h-4 w-4" />
+            Discover Our Story
           </span>
-          <h2 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl lg:text-5xl font-bold text-stone-900">
-            About <span className="text-orange-600">Kuzueats</span>
-          </h2>
-          <p className="mt-4 text-sm sm:text-lg text-stone-700 font-medium leading-relaxed">
-            At <strong className="text-stone-900">Kuzueats</strong>, we believe
-            food connects people. Our mission is to empower restaurants, cafés,
-            and food entrepreneurs to take control of their online orders —
-            without losing profits to third-party commissions.
+
+          <h1 className="font-[family-name:var(--font-playfair)] text-4xl font-bold leading-tight tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
+            More Than Food.
+            <br />
+            <span className="text-orange-600">
+              We're About Connections.
+            </span>
+          </h1>
+
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-stone-700 sm:text-base sm:leading-8">
+            At <strong className="text-stone-950">Kuzueats</strong>, we believe
+            great food brings people together. We're building a smarter way for
+            restaurants, cafés and food entrepreneurs to grow their businesses,
+            connect directly with customers and keep more of what they earn.
           </p>
 
-          {/* Key Value Strip */}
-          <div className="mt-7 grid grid-cols-3 gap-2.5 sm:gap-4 max-w-xl mx-auto">
-            {QUICK_METRICS.map((metric) => (
-              <div
-                key={metric.label}
-                className="rounded-2xl bg-white/95 backdrop-blur-xs border border-orange-100 px-3 py-3 shadow-sm"
-              >
-                <p className="text-base sm:text-xl font-extrabold text-orange-600">
-                  {metric.value}
-                </p>
-                <p className="text-[11px] sm:text-xs font-semibold text-stone-600 mt-0.5">
-                  {metric.label}
-                </p>
-              </div>
-            ))}
+          {/* Metrics */}
+
+          <div className="mx-auto mt-9 grid max-w-2xl grid-cols-3 gap-2.5 sm:gap-4">
+            {QUICK_METRICS.map((metric, index) => {
+              const Icon = metric.icon;
+
+              return (
+                <motion.div
+                  key={metric.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.12 }}
+                  whileHover={{ y: -5 }}
+                  className="group rounded-2xl border border-orange-100 bg-white/95 p-3 shadow-sm backdrop-blur-md transition-shadow hover:shadow-lg sm:p-5"
+                >
+                  <Icon className="mx-auto mb-2 h-5 w-5 text-orange-500 transition-transform group-hover:scale-110" />
+
+                  <p className="text-lg font-black text-orange-600 sm:text-2xl">
+                    {metric.value}
+                  </p>
+
+                  <p className="mt-1 text-[9px] font-bold text-stone-500 sm:text-xs">
+                    {metric.label}
+                  </p>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
       </div>
 
-      {/* Main Editorial Content */}
-      <div className="relative py-16 sm:py-24">
-        {/* Subtle decorative warm glow */}
-        <div className="pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full bg-orange-200/35 blur-3xl" />
-        <div className="pointer-events-none absolute bottom-0 -left-24 h-80 w-80 rounded-full bg-amber-200/30 blur-3xl" />
+      {/* ================= ABOUT STORY ================= */}
+
+      <div className="relative overflow-hidden py-20 sm:py-28">
+
+        {/* Background decoration */}
+
+        <div className="pointer-events-none absolute -right-32 top-10 h-96 w-96 rounded-full bg-orange-200/30 blur-[110px]" />
+
+        <div className="pointer-events-none absolute -bottom-20 -left-32 h-96 w-96 rounded-full bg-amber-200/30 blur-[110px]" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            {/* Left column: Story + Feature mini-cards */}
+
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+
+            {/* LEFT CONTENT */}
+
             <motion.div
-              initial={{ opacity: 0, x: -24 }}
+              initial={{ opacity: 0, x: -35 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.55 }}
-              className="lg:col-span-6 space-y-6"
+              transition={{ duration: 0.7 }}
             >
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-orange-600">
+
+              <span className="mb-5 inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.16em] text-orange-600">
                 <TrendingUp className="h-4 w-4" />
-                <span>Built for Independent Kitchens</span>
+                Built for Independent Kitchens
+              </span>
+
+              <h2 className="font-[family-name:var(--font-playfair)] text-3xl font-bold leading-tight text-stone-900 sm:text-4xl lg:text-5xl">
+                Helping Restaurants
+                <span className="text-orange-600"> Grow Beyond </span>
+                Expectations.
+              </h2>
+
+              <p className="mt-6 text-sm leading-7 text-stone-600 sm:text-base">
+                Whether you're running a neighbourhood café, a family-owned
+                restaurant or a growing food chain, Kuzueats brings essential
+                digital tools together in one convenient platform.
+              </p>
+
+              <p className="mt-4 text-sm leading-7 text-stone-600 sm:text-base">
+                From online ordering and table reservations to business
+                insights and customer engagement, our goal is to simplify
+                restaurant operations while helping food businesses build
+                lasting customer relationships.
+              </p>
+
+              {/* Focus points */}
+
+              <div className="mt-7 space-y-3">
+                {focusPoints.map((point, index) => (
+                  <motion.div
+                    key={point}
+                    initial={{ opacity: 0, x: -15 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-start gap-3"
+                  >
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+
+                    <p className="text-sm font-medium leading-6 text-stone-700">
+                      {point}
+                    </p>
+                  </motion.div>
+                ))}
               </div>
 
-              <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
-                Whether you&apos;re a local eatery or a fast-growing food chain,
-                Kuzueats gives you everything you need — from online ordering
-                and table reservations to analytics and customer engagement
-                tools.
-              </p>
-              <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
-                We help restaurants{" "}
-                <strong className="text-stone-900 font-bold">
-                  serve more customers, faster
-                </strong>
-                , while providing a delightful, seamless experience for food
-                lovers across the country.
-              </p>
+              {/* Feature Cards */}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div className="mt-9 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {highlights.map((item, index) => {
                   const Icon = item.icon;
+
                   return (
                     <motion.div
                       key={item.title}
-                      initial={{ opacity: 0, y: 16 }}
+                      initial={{ opacity: 0, y: 25 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, amount: 0.2 }}
-                      transition={{ duration: 0.4, delay: index * 0.08 }}
-                      whileHover={{ y: -4 }}
-                      className="rounded-2xl border border-orange-100 bg-white p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-orange-300 transition-all"
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      whileHover={{ y: -7 }}
+                      className="group relative overflow-hidden rounded-2xl border border-orange-100 bg-white p-5 shadow-sm transition-all duration-300 hover:border-orange-300 hover:shadow-xl"
                     >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-orange-600 mb-3">
-                        <Icon className="h-5 w-5" />
+                      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-orange-50 transition-transform duration-500 group-hover:scale-150" />
+
+                      <div className="relative z-10">
+
+                        <div className="flex items-center justify-between">
+                          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-600 transition-all duration-300 group-hover:bg-orange-600 group-hover:text-white">
+                            <Icon className="h-5 w-5" />
+                          </div>
+
+                          <ArrowUpRight className="h-4 w-4 text-stone-300 transition-all group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-orange-600" />
+                        </div>
+
+                        <span className="mt-4 inline-block text-[9px] font-extrabold uppercase tracking-wider text-orange-600">
+                          {item.tag}
+                        </span>
+
+                        <h3 className="mt-1 text-sm font-extrabold text-stone-900">
+                          {item.title}
+                        </h3>
+
+                        <p className="mt-2 text-xs leading-6 text-stone-500">
+                          {item.description}
+                        </p>
                       </div>
-                      <h3 className="text-sm font-bold text-stone-900">
-                        {item.title}
-                      </h3>
-                      <p className="mt-1 text-xs text-stone-600 leading-relaxed">
-                        {item.description}
-                      </p>
                     </motion.div>
                   );
                 })}
               </div>
             </motion.div>
 
-            {/* Right column: Visual showcase with fulfillment badge */}
+            {/* RIGHT IMAGE SHOWCASE */}
+
             <motion.div
-              initial={{ opacity: 0, x: 24 }}
+              initial={{ opacity: 0, x: 35 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.55 }}
-              className="lg:col-span-6 relative"
+              transition={{ duration: 0.7 }}
+              className="relative mx-auto w-full max-w-xl"
             >
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/3]">
+
+              {/* Decorative frame */}
+
+              <div className="absolute -right-4 -top-4 h-full w-full rounded-[2rem] border-2 border-orange-200/70" />
+
+              <div className="relative overflow-hidden rounded-[2rem] border-[5px] border-white bg-white shadow-2xl">
+
                 <img
                   src={siteConfig.images.aboutShowcase}
-                  alt="Freshly prepared dishes served for Kuzueats partner restaurants"
-                  className="h-full w-full object-cover hover:scale-105 transition-transform duration-700"
+                  alt="Delicious freshly prepared restaurant food"
+                  loading="lazy"
+                  className="aspect-[4/4.2] w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/75 via-transparent to-transparent" />
 
-                {/* Floating client satisfaction card */}
-                <div className="absolute bottom-3 left-3 right-3 sm:bottom-6 sm:left-6 sm:right-6 rounded-2xl bg-white/95 backdrop-blur-md p-3.5 sm:p-4 shadow-lg border border-orange-100 flex items-center justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-orange-600">
-                      Partner Growth Promise
-                    </p>
-                    <p className="text-xs sm:text-base font-extrabold text-stone-900 mt-0.5 truncate">
-                      100% Commission-Free Direct Orders
-                    </p>
-                  </div>
-                  <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-bold text-emerald-800">
-                    <ShieldCheck className="h-3.5 w-3.5" />
-                    <span>Verified ROI</span>
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent" />
+
+                <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
+
+                  <span className="inline-block rounded-full bg-orange-500 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
+                    The Kuzueats Promise
                   </span>
+
+                  <h3 className="mt-3 font-[family-name:var(--font-playfair)] text-2xl font-bold text-white sm:text-3xl">
+                    Good Food.
+                    <br />
+                    Better Opportunities.
+                  </h3>
+
+                  <p className="mt-2 max-w-sm text-xs leading-6 text-white/80 sm:text-sm">
+                    Empowering food businesses with the freedom to grow,
+                    connect and succeed.
+                  </p>
+
                 </div>
               </div>
+
+              {/* Floating ownership card */}
+
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute -left-3 top-8 flex items-center gap-3 rounded-2xl border border-orange-100 bg-white p-3.5 shadow-xl sm:-left-8 sm:p-4"
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                  <ShieldCheck className="h-6 w-6" />
+                </div>
+
+                <div>
+                  <p className="text-sm font-extrabold text-stone-900">
+                    Your Business, Your Rules
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-stone-500">
+                    More control over direct orders
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Floating partner card */}
+
+              <motion.div
+                animate={{ y: [0, 7, 0] }}
+                transition={{
+                  duration: 4.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute -bottom-5 -right-2 flex items-center gap-3 rounded-2xl border border-orange-100 bg-white p-3.5 shadow-xl sm:-right-7 sm:p-4"
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-600">
+                  <Store className="h-6 w-6" />
+                </div>
+
+                <div>
+                  <p className="text-sm font-extrabold text-stone-900">
+                    Made for Restaurants
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-stone-500">
+                    Designed around your needs
+                  </p>
+                </div>
+              </motion.div>
+
             </motion.div>
+
           </div>
         </div>
       </div>
+
+      {/* ================= BRAND MESSAGE STRIP ================= */}
+
+      <div className="border-y border-orange-100 bg-white/70 py-10">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-5 sm:grid-cols-3 sm:gap-5 sm:px-8">
+
+          {[
+            {
+              icon: Store,
+              title: "For Every Kitchen",
+              description:
+                "From small cafés to established restaurant businesses.",
+            },
+            {
+              icon: HeartHandshake,
+              title: "Built on Trust",
+              description:
+                "Creating stronger connections between restaurants and customers.",
+            },
+            {
+              icon: TrendingUp,
+              title: "Focused on Growth",
+              description:
+                "Helping food entrepreneurs embrace smarter digital operations.",
+            },
+          ].map((item, index) => {
+            const Icon = item.icon;
+
+            return (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.12 }}
+                className="flex items-start gap-4"
+              >
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-orange-50 text-orange-600">
+                  <Icon className="h-6 w-6" />
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-extrabold text-stone-900">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-6 text-stone-500">
+                    {item.description}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+
     </section>
   );
 }

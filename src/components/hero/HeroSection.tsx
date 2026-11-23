@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -12,7 +12,9 @@ import {
   Clock,
   ChevronLeft,
   ChevronRight,
+  ShoppingBag,
 } from "lucide-react";
+
 import { siteConfig } from "@/data/siteData";
 import HeroStats from "./HeroStats";
 
@@ -25,17 +27,17 @@ const SPOTLIGHT_KITCHENS = [
   {
     name: "Urban Dine — Bengaluru",
     tag: "3.2x Repeat Guests",
-    note: "Seamless table & pickup flow built for busy dining hours.",
+    note: "Seamless table and pickup flow for busy dining hours.",
   },
   {
     name: "The Pasta House — Mumbai",
     tag: "100% Margin Kept",
-    note: "Artisanal Italian kitchen growing repeat regulars every week.",
+    note: "Growing loyal customers with a direct ordering experience.",
   },
 ];
 
-const DINING_MODES = [
-  { id: "delivery", label: "Direct Delivery", icon: Clock },
+const MODES = [
+  { id: "delivery", label: "Direct Delivery", icon: ShoppingBag },
   { id: "dinein", label: "Smart Table Flow", icon: Utensils },
   { id: "loyalty", label: "Repeat Rewards", icon: Sparkles },
 ];
@@ -47,195 +49,198 @@ export default function HeroSection() {
   useEffect(() => {
     const timer = setInterval(() => {
       setSpotlightIndex((prev) => (prev + 1) % SPOTLIGHT_KITCHENS.length);
-    }, 4500);
+    }, 5000);
+
     return () => clearInterval(timer);
   }, []);
 
   const currentSpotlight = SPOTLIGHT_KITCHENS[spotlightIndex];
 
-  const handlePrevSpotlight = () => {
-    setSpotlightIndex((prev) =>
-      prev === 0 ? SPOTLIGHT_KITCHENS.length - 1 : prev - 1
+  const changeSpotlight = (direction: number) => {
+    setSpotlightIndex(
+      (prev) =>
+        (prev + direction + SPOTLIGHT_KITCHENS.length) %
+        SPOTLIGHT_KITCHENS.length
     );
-  };
-
-  const handleNextSpotlight = () => {
-    setSpotlightIndex((prev) => (prev + 1) % SPOTLIGHT_KITCHENS.length);
   };
 
   return (
     <section
       id="home"
-      className="relative min-h-[88vh] w-full flex items-center justify-center overflow-hidden pt-24 pb-16 bg-stone-950"
+      className="relative flex min-h-[90vh] w-full items-center justify-center overflow-hidden bg-stone-950 pb-16 pt-28 sm:pt-32"
     >
-      {/* Background culinary image with gentle motion */}
       <motion.img
         src={siteConfig.images.heroBg}
-        alt="Fresh culinary dishes served at Kuzueats partner restaurants"
-        initial={{ scale: 1.08, opacity: 0.65 }}
-        animate={{ scale: 1.03, opacity: 0.82 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
+        alt="Freshly prepared dishes from restaurant kitchens"
+        initial={{ scale: 1.12 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 2, ease: "easeOut" }}
         className="absolute inset-0 h-full w-full object-cover"
       />
 
-      {/* Gradient overlays for strong contrast */}
-      <div className="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-stone-950/60 to-[#FFFBF5]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(249,115,22,0.32),transparent_55%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(245,158,11,0.18),transparent_50%)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-stone-950/65 to-[#FFFBF5]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-orange-950/30" />
 
-      {/* Hero content */}
-      <div className="relative z-10 w-full mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
+      <div className="absolute -right-32 top-20 h-96 w-96 rounded-full bg-orange-500/15 blur-[120px]" />
+      <div className="absolute -left-32 bottom-20 h-96 w-96 rounded-full bg-amber-500/10 blur-[120px]" />
+
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className="inline-flex max-w-full items-center gap-2 rounded-full border border-orange-300/35 bg-orange-500/15 backdrop-blur-md px-3.5 py-1.5 text-[11px] sm:text-sm font-semibold text-orange-200 mb-5"
+          transition={{ duration: 0.6 }}
+          className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-300/30 bg-orange-500/15 px-4 py-2 text-xs font-bold text-orange-200 backdrop-blur-xl sm:text-sm"
         >
-          <ChefHat className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-orange-400 shrink-0" />
-          <span className="truncate">
-            Built for Restaurants, Cafés &amp; Culinary Creators
-          </span>
+          <ChefHat className="h-4 w-4 text-orange-400" />
+          Built for Restaurants, Cafés & Culinary Creators
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 22 }}
+          initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.1 }}
-          className="font-[family-name:var(--font-playfair)] text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.2] max-w-4xl mx-auto break-words"
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="mx-auto max-w-5xl break-words font-[family-name:var(--font-playfair)] text-3xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl"
         >
-          “Made with passion, served with love.{" "}
-          <span className="bg-gradient-to-r from-amber-300 via-orange-400 to-red-400 bg-clip-text text-transparent">
-            Because you deserve the best bite.”
+          Made with Passion,
+          <br className="hidden sm:block" />
+          Served with Love.
+          <span className="mt-2 block bg-gradient-to-r from-amber-300 via-orange-400 to-red-400 bg-clip-text text-transparent">
+            Because You Deserve the Best Bite.
           </span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.2 }}
-          className="mt-4 sm:mt-5 max-w-2xl mx-auto text-sm sm:text-lg text-stone-200 leading-relaxed px-1"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-stone-200 sm:text-base lg:text-lg"
         >
-          Take full command of your online ordering, table reservations, and
-          customer loyalty—without losing profits to heavy third-party
+          Take full command of your online ordering, table reservations and
+          customer loyalty — without losing profits to heavy third-party
           commissions.
         </motion.p>
 
-        {/* Interactive dining mode switcher */}
+        {/* Ordering modes */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.24 }}
-          className="mt-5 sm:mt-6 flex flex-wrap items-center justify-center gap-2"
+          transition={{ delay: 0.3 }}
+          className="mt-7 flex flex-wrap justify-center gap-2"
         >
-          {DINING_MODES.map((mode) => {
+          {MODES.map((mode) => {
             const Icon = mode.icon;
-            const isSelected = activeMode === mode.id;
+            const selected = activeMode === mode.id;
+
             return (
               <button
                 key={mode.id}
                 type="button"
                 onClick={() => setActiveMode(mode.id)}
-                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs sm:text-sm font-medium transition-all cursor-pointer ${
-                  isSelected
-                    ? "bg-amber-400 text-stone-950 font-semibold shadow-md shadow-amber-500/25"
-                    : "bg-stone-900/75 text-stone-200 border border-white/15 hover:border-orange-400/50"
+                aria-pressed={selected}
+                className={`inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-xs font-bold transition-all sm:text-sm ${
+                  selected
+                    ? "border-amber-400 bg-amber-400 text-stone-950 shadow-lg shadow-orange-500/20"
+                    : "border-white/20 bg-white/10 text-white backdrop-blur-md hover:border-orange-400 hover:bg-orange-500/20"
                 }`}
               >
-                <Icon className="h-3.5 w-3.5 shrink-0" />
-                <span>{mode.label}</span>
+                <Icon className="h-4 w-4" />
+                {mode.label}
               </button>
             );
           })}
         </motion.div>
 
-        {/* Primary CTA links */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.28 }}
-          className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-md sm:max-w-none mx-auto"
+          transition={{ delay: 0.4 }}
+          className="mx-auto mt-8 flex max-w-md flex-col justify-center gap-3 sm:max-w-none sm:flex-row"
         >
           <Link
             href="/contact"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 sm:px-7 py-3.5 text-sm sm:text-base font-bold text-white shadow-xl shadow-orange-600/30 hover:shadow-2xl hover:shadow-orange-500/40 hover:-translate-y-0.5 transition-all"
+            className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-7 py-3.5 text-sm font-extrabold text-white shadow-xl shadow-orange-600/30 transition hover:-translate-y-1 hover:shadow-orange-500/40"
           >
-            <span>Partner With Us</span>
-            <ArrowRight className="h-4 w-4 shrink-0" />
+            Partner With Us
+            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
           </Link>
 
           <Link
             href="/about"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 backdrop-blur-md px-6 sm:px-7 py-3.5 text-sm sm:text-base font-semibold text-white hover:bg-white/20 transition-all"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-bold text-white backdrop-blur-lg transition hover:bg-white/20"
           >
-            <span>Explore About &amp; Savings</span>
+            Explore KuzuEats
           </Link>
         </motion.div>
 
-        {/* Interactive Partner Spotlight Carousel Strip */}
+        {/* Partner spotlight */}
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.34 }}
-          className="mt-7 sm:mt-8 w-full max-w-2xl mx-auto rounded-2xl border border-white/15 bg-stone-900/80 backdrop-blur-md px-3.5 sm:px-4 py-3 text-left shadow-lg"
+          transition={{ delay: 0.5 }}
+          className="mx-auto mt-9 max-w-2xl rounded-2xl border border-white/15 bg-stone-950/75 p-4 text-left shadow-2xl backdrop-blur-xl"
         >
-          <div className="flex items-center justify-between gap-2.5 sm:gap-3">
+          <div className="flex items-center justify-between gap-3">
             <div className="min-w-0 flex-1">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentSpotlight.name}
-                  initial={{ opacity: 0, x: 10 }}
+                  initial={{ opacity: 0, x: 15 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -10 }}
-                  transition={{ duration: 0.28 }}
+                  exit={{ opacity: 0, x: -15 }}
+                  transition={{ duration: 0.25 }}
                 >
-                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                    <span className="text-xs sm:text-sm font-bold text-white">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-bold text-white">
                       {currentSpotlight.name}
                     </span>
-                    <span className="rounded-full bg-orange-500/20 border border-orange-400/30 px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold text-amber-300">
+
+                    <span className="rounded-full bg-orange-500/20 px-2.5 py-1 text-[10px] font-bold text-orange-300">
                       {currentSpotlight.tag}
                     </span>
                   </div>
-                  <p className="text-[11px] sm:text-xs text-stone-300 mt-1 line-clamp-2 sm:truncate">
+
+                  <p className="mt-1 text-xs leading-relaxed text-stone-300">
                     {currentSpotlight.note}
                   </p>
                 </motion.div>
               </AnimatePresence>
             </div>
 
-            <div className="flex items-center gap-1.5 shrink-0">
+            <div className="flex shrink-0 gap-2">
               <button
                 type="button"
-                onClick={handlePrevSpotlight}
-                aria-label="Previous partner highlight"
-                className="h-7 w-7 sm:h-8 sm:w-8 rounded-full border border-white/15 bg-white/5 text-stone-200 hover:bg-orange-500 hover:text-white inline-flex items-center justify-center transition-colors cursor-pointer"
+                onClick={() => changeSpotlight(-1)}
+                aria-label="Previous partner"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white transition hover:bg-orange-500"
               >
-                <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <ChevronLeft className="h-4 w-4" />
               </button>
+
               <button
                 type="button"
-                onClick={handleNextSpotlight}
-                aria-label="Next partner highlight"
-                className="h-7 w-7 sm:h-8 sm:w-8 rounded-full border border-white/15 bg-white/5 text-stone-200 hover:bg-orange-500 hover:text-white inline-flex items-center justify-center transition-colors cursor-pointer"
+                onClick={() => changeSpotlight(1)}
+                aria-label="Next partner"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white transition hover:bg-orange-500"
               >
-                <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <ChevronRight className="h-4 w-4" />
               </button>
             </div>
           </div>
         </motion.div>
 
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs sm:text-sm text-stone-300">
-          <span className="inline-flex items-center gap-1.5">
-            <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-            <span>Instant Menu &amp; Order Setup</span>
+        <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-3 text-xs text-stone-200 sm:text-sm">
+          <span className="inline-flex items-center gap-2">
+            <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+            Easy Menu Setup
           </span>
-          <span className="inline-flex items-center gap-1.5">
-            <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-            <span>Delightful Customer Experience</span>
+
+          <span className="inline-flex items-center gap-2">
+            <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+            Direct Customer Experience
           </span>
         </div>
 
-        {/* Client fulfillment metrics */}
         <HeroStats />
       </div>
     </section>
