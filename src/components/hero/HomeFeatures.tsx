@@ -120,7 +120,8 @@ export default function HomeFeatures() {
             </p>
           </motion.div>
 
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Mobile: Horizontal Snap Scroll | Tablet & Desktop: 2 & 3 Column Grid */}
+          <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
             {FEATURES.map((item, index) => {
               const Icon = item.icon;
 
@@ -131,8 +132,7 @@ export default function HomeFeatures() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.07 }}
-                  whileHover={{ y: -7 }}
-                  className="group flex flex-col rounded-3xl border border-orange-100 bg-white p-6 shadow-sm transition-all hover:border-orange-200 hover:shadow-xl hover:shadow-orange-950/5 sm:p-7"
+                  className="group flex w-[82vw] max-w-[330px] shrink-0 snap-center flex-col rounded-3xl border border-orange-100 bg-white p-6 shadow-sm transition-all hover:border-orange-200 hover:shadow-xl hover:shadow-orange-950/5 sm:w-auto sm:max-w-none sm:shrink sm:p-7 sm:hover:-translate-y-1.5"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex h-13 w-13 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 p-3 text-white shadow-lg shadow-orange-500/20 transition group-hover:scale-110">
