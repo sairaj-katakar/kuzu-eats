@@ -5,8 +5,8 @@ export const SITE_CONFIG = {
     "Kuzu Eats empowers restaurants, cafés, and culinary creators to take control of direct online orders, boost sales, and build lasting customer relationships.",
   contact: {
     address: "123 Food Street, Chennai, India",
-    phone: "+91 98765 43210",
-    email: "support@kuzueats.com",
+    phone: "+91 7083232531",
+    email: "sairajkatkar2005@gmail.com",
     hours: "Mon - Sun: 8:00 AM - 11:00 PM",
   },
   copyright: "© 2026 Kuzueats. All rights reserved.",

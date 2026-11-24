@@ -4,8 +4,8 @@ export const siteConfig = {
   tagline: "100% Commission-Free Direct Ordering for Restaurants & Chefs",
   contact: {
     address: "123 Food Street, Chennai, India",
-    phone: "+91 98765 43210",
-    email: "support@kuzueats.com",
+    phone: "+91 7083232531",
+    email: "sairajkatkar2005@gmail.com",
   },
   images: {
     heroBg:

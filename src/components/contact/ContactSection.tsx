@@ -15,6 +15,9 @@ import {
   Store,
   CalendarClock,
   ShieldCheck,
+  Loader2,
+  AlertCircle,
+  MessageCircle,
 } from "lucide-react";
 import { siteConfig } from "@/data/siteData";
 
@@ -31,6 +34,9 @@ const CALLBACK_SLOTS = [
   "Evening (6 PM - 9 PM)",
 ];
 
+// Replace with your free key from https://web3forms.com
+const WEB3FORMS_ACCESS_KEY = "5856b2f3-81ce-424e-b85b-8e6d7837c087";
+
 export default function ContactSection() {
   const [formData, setFormData] = useState({
     name: "",
@@ -43,6 +49,8 @@ export default function ContactSection() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [copiedField, setCopiedField] = useState<"phone" | "email" | null>(
     null
   );
@@ -52,6 +60,7 @@ export default function ContactSection() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errorMsg) setErrorMsg(null);
   };
 
   const handleCopy = (text: string, field: "phone" | "email") => {
@@ -60,10 +69,78 @@ export default function ContactSection() {
     setTimeout(() => setCopiedField(null), 2000);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const buildWhatsAppUrl = () => {
+    const cleanPhone = siteConfig.contact.phone.replace(/\D/g, "");
+    const text = [
+      `*New Kuzueats Inquiry*`,
+      `*Topic:* ${formData.topic}`,
+      `*Name:* ${formData.name}`,
+      formData.restaurantName
+        ? `*Restaurant / Café:* ${formData.restaurantName}`
+        : null,
+      `*Email:* ${formData.email}`,
+      formData.phone ? `*Phone:* ${formData.phone}` : null,
+      `*Preferred Callback:* ${formData.callbackSlot}`,
+      `*Message:* ${formData.message}`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim()) return;
-    setSubmitted(true);
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.message.trim()
+    ) {
+      setErrorMsg("Please fill in all required fields.");
+      return;
+    }
+
+    setIsSending(true);
+    setErrorMsg(null);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `Kuzueats Inquiry: ${formData.topic} - ${formData.name}`,
+          from_name: "Kuzueats Website",
+          name: formData.name,
+          restaurant_name: formData.restaurantName || "Not specified",
+          email: formData.email,
+          phone: formData.phone || "Not provided",
+          topic: formData.topic,
+          preferred_callback_time: formData.callbackSlot,
+          message: formData.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        setErrorMsg(
+          result.message ||
+            "Unable to send message right now. Please try WhatsApp or email directly."
+        );
+      }
+    } catch {
+      setErrorMsg(
+        "Network error while sending your message. Please try again or use WhatsApp below."
+      );
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const handleReset = () => {
@@ -77,6 +154,7 @@ export default function ContactSection() {
       subject: "",
       message: "",
     });
+    setErrorMsg(null);
     setSubmitted(false);
   };
 
@@ -291,12 +369,13 @@ export default function ContactSection() {
                     <CheckCircle2 className="h-9 w-9" />
                   </div>
                   <h3 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold text-stone-900">
-                    Inquiry Received!
+                    Inquiry Sent Successfully!
                   </h3>
                   <p className="text-sm sm:text-base text-stone-600 max-w-md mx-auto leading-relaxed">
                     Thank you,{" "}
                     <strong className="text-stone-900">{formData.name}</strong>.
-                    Our Kuzueats specialist will connect with you during{" "}
+                    Your message has been delivered to our team, and a Kuzueats
+                    specialist will connect with you during{" "}
                     <strong className="text-stone-900">
                       {formData.callbackSlot}
                     </strong>{" "}
@@ -306,13 +385,24 @@ export default function ContactSection() {
                     </strong>
                     .
                   </p>
-                  <button
-                    type="button"
-                    onClick={handleReset}
-                    className="mt-3 inline-flex items-center justify-center rounded-xl bg-stone-900 px-6 py-3 text-sm font-bold text-white hover:bg-stone-800 transition cursor-pointer"
-                  >
-                    Send Another Message
-                  </button>
+                  <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
+                    <a
+                      href={buildWhatsAppUrl()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white hover:bg-emerald-700 transition"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      <span>Also Chat on WhatsApp</span>
+                    </a>
+                    <button
+                      type="button"
+                      onClick={handleReset}
+                      className="inline-flex items-center justify-center rounded-xl bg-stone-900 px-6 py-3 text-sm font-bold text-white hover:bg-stone-800 transition cursor-pointer"
+                    >
+                      Send Another Message
+                    </button>
+                  </div>
                 </motion.div>
               ) : (
                 <motion.form
@@ -482,14 +572,45 @@ export default function ContactSection() {
                     />
                   </div>
 
+                  {/* Error Alert if Delivery Fails */}
+                  {errorMsg && (
+                    <div className="flex items-start gap-2.5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-700">
+                      <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-600" />
+                      <span>{errorMsg}</span>
+                    </div>
+                  )}
+
                   <div className="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <button
-                      type="submit"
-                      className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-600/25 hover:opacity-95 active:scale-[0.99] transition cursor-pointer"
-                    >
-                      <span>Send Message</span>
-                      <Send className="h-4 w-4" />
-                    </button>
+                    <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+                      <button
+                        type="submit"
+                        disabled={isSending}
+                        className="inline-flex flex-1 sm:flex-initial items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-600/25 hover:opacity-95 active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed transition cursor-pointer"
+                      >
+                        {isSending ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <span>Sending...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Send Message</span>
+                            <Send className="h-4 w-4" />
+                          </>
+                        )}
+                      </button>
+
+                      <a
+                        href={buildWhatsAppUrl()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3.5 text-xs font-bold text-emerald-700 hover:bg-emerald-100 transition"
+                      >
+                        <MessageCircle className="h-4 w-4" />
+                        <span>WhatsApp</span>
+                      </a>
+                    </div>
+
                     <span className="text-xs text-stone-500">
                       No spam. Dedicated onboarding specialist support.
                     </span>
