@@ -8,9 +8,11 @@ import { Menu } from "lucide-react";
 import { siteConfig } from "@/data/siteData";
 import MobileMenu from "./MobileMenu";
 
+
 const navItems = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
+  { label: "Products", href: "/products" },
   { label: "Contact Us", href: "/contact" },
 ];
 
