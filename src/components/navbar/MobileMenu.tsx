@@ -4,18 +4,12 @@ import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowUpRight } from "lucide-react";
+import { BRAND_CONTACT, NAV_LINKS } from "@/data/siteData";
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
-  { label: "Products", href: "/products" },
-  { label: "Contact Us", href: "/contact" },
-];
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   return (
@@ -51,11 +45,12 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 >
                   <img
                     src="/images/logo.png"
-                    alt="Kuzu Eats"
+                    alt={BRAND_CONTACT.brandName}
                     className="h-9 sm:h-10 w-auto max-w-[145px] object-contain select-none"
                   />
                 </Link>
                 <button
+                  type="button"
                   onClick={onClose}
                   aria-label="Close mobile menu"
                   className="rounded-xl p-2 text-stone-600 hover:bg-orange-50 hover:text-orange-600 transition cursor-pointer"
@@ -65,7 +60,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               </div>
 
               <nav className="mt-6 flex flex-col gap-2">
-                {navLinks.map((item, index) => (
+                {NAV_LINKS.map((item, index) => (
                   <motion.div
                     key={item.href}
                     initial={{ opacity: 0, x: 16 }}
@@ -75,10 +70,10 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     <Link
                       href={item.href}
                       onClick={onClose}
-                      className="flex items-center justify-between rounded-xl px-4 py-3 text-base font-semibold text-stone-800 hover:bg-orange-50 hover:text-orange-600 transition"
+                      className="group flex items-center justify-between rounded-xl px-4 py-3 text-base font-semibold text-stone-800 hover:bg-orange-50 hover:text-orange-600 transition-all duration-200"
                     >
                       <span>{item.label}</span>
-                      <ArrowUpRight className="h-4 w-4 text-orange-400" />
+                      <ArrowUpRight className="h-4 w-4 text-orange-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </Link>
                   </motion.div>
                 ))}
@@ -89,7 +84,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               <Link
                 href="/login"
                 onClick={onClose}
-                className="flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-orange-500/25 hover:opacity-95 transition"
+                className="flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-orange-500/25 hover:opacity-95 active:scale-[0.99] transition-all"
               >
                 Login
               </Link>

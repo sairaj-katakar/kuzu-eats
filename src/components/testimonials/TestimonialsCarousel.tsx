@@ -1,29 +1,58 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
-import { testimonialsData } from "./testimonialsData";
+import { BRAND_CONTACT } from "@/data/siteData";
+import { testimonialsData, type TestimonialItem } from "./testimonialsData";
 
 import "swiper/css";
 import "swiper/css/pagination";
 
+function TestimonialAvatar({ item }: { item: TestimonialItem }) {
+  const [imgSrc, setImgSrc] = useState(item.avatar);
+
+  useEffect(() => {
+    setImgSrc(item.avatar);
+  }, [item.avatar]);
+
+  return (
+    <img
+      src={imgSrc}
+      alt={item.restaurant}
+      onError={() => {
+        if (imgSrc !== item.fallbackAvatar) {
+          setImgSrc(item.fallbackAvatar);
+        }
+      }}
+      className="h-12 w-12 rounded-full object-cover ring-2 ring-orange-200 transition-transform duration-300 group-hover:scale-105"
+    />
+  );
+}
+
 export default function TestimonialsCarousel() {
+  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
   const [prevEl, setPrevEl] = useState<HTMLButtonElement | null>(null);
   const [nextEl, setNextEl] = useState<HTMLButtonElement | null>(null);
 
-  const handleBeforeInit = (swiper: SwiperType) => {
+  useEffect(() => {
     if (
-      swiper.params.navigation &&
-      typeof swiper.params.navigation !== "boolean"
+      swiperInstance &&
+      prevEl &&
+      nextEl &&
+      swiperInstance.params.navigation &&
+      typeof swiperInstance.params.navigation !== "boolean"
     ) {
-      swiper.params.navigation.prevEl = prevEl;
-      swiper.params.navigation.nextEl = nextEl;
+      swiperInstance.params.navigation.prevEl = prevEl;
+      swiperInstance.params.navigation.nextEl = nextEl;
+      swiperInstance.navigation.destroy();
+      swiperInstance.navigation.init();
+      swiperInstance.navigation.update();
     }
-  };
+  }, [swiperInstance, prevEl, nextEl]);
 
   return (
     <section
@@ -35,7 +64,7 @@ export default function TestimonialsCarousel() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: "some" }}
           transition={{ duration: 0.5 }}
           className="text-center max-w-2xl mx-auto mb-12"
         >
@@ -47,13 +76,15 @@ export default function TestimonialsCarousel() {
             <span className="text-orange-600">Partner Restaurants</span>
           </h2>
           <p className="mt-3 text-base text-stone-600">
-            See how restaurant owners are growing faster with Kuzueats.
+            See how restaurant owners are growing faster with{" "}
+            {BRAND_CONTACT.brandName}.
           </p>
         </motion.div>
 
         {/* Responsive Swiper Carousel */}
         <Swiper
           modules={[Autoplay, Pagination, Navigation]}
+          onSwiper={setSwiperInstance}
           spaceBetween={24}
           slidesPerView={1}
           loop
@@ -69,7 +100,6 @@ export default function TestimonialsCarousel() {
             prevEl,
             nextEl,
           }}
-          onBeforeInit={handleBeforeInit}
           breakpoints={{
             640: { slidesPerView: 1.4 },
             768: { slidesPerView: 2 },
@@ -79,15 +109,11 @@ export default function TestimonialsCarousel() {
         >
           {testimonialsData.map((item) => (
             <SwiperSlide key={item.id} className="h-auto">
-              <div className="h-full rounded-3xl bg-white p-6 sm:p-7 shadow-lg shadow-orange-950/5 border border-orange-100 flex flex-col justify-between hover:border-orange-300 transition">
+              <div className="group h-full rounded-3xl bg-white p-6 sm:p-7 shadow-lg shadow-orange-950/5 border border-orange-100 flex flex-col justify-between hover:-translate-y-1 hover:shadow-xl hover:border-orange-300 transition-all duration-300">
                 <div>
                   <div className="flex items-center justify-between gap-3 mb-5">
                     <div className="flex items-center gap-3.5">
-                      <img
-                        src={item.avatar}
-                        alt={item.restaurant}
-                        className="h-12 w-12 rounded-full object-cover ring-2 ring-orange-200"
-                      />
+                      <TestimonialAvatar item={item} />
                       <div>
                         <h3 className="text-base font-extrabold text-stone-900">
                           {item.restaurant}
@@ -97,7 +123,7 @@ export default function TestimonialsCarousel() {
                         </p>
                       </div>
                     </div>
-                    <Quote className="h-6 w-6 text-orange-200 shrink-0" />
+                    <Quote className="h-6 w-6 text-orange-200 shrink-0 transition-colors duration-300 group-hover:text-orange-400" />
                   </div>
 
                   <p className="text-sm sm:text-base text-stone-700 leading-relaxed italic">
@@ -129,7 +155,7 @@ export default function TestimonialsCarousel() {
             ref={setPrevEl}
             type="button"
             aria-label="Previous testimonial slide"
-            className="h-8 w-8 rounded-full border border-orange-200 bg-white text-stone-700 hover:bg-orange-600 hover:border-orange-600 hover:text-white inline-flex items-center justify-center shadow-xs transition cursor-pointer"
+            className="h-8 w-8 rounded-full border border-orange-200 bg-white text-stone-700 hover:bg-orange-600 hover:border-orange-600 hover:text-white active:scale-95 inline-flex items-center justify-center shadow-xs transition-all duration-200 cursor-pointer"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
@@ -140,7 +166,7 @@ export default function TestimonialsCarousel() {
             ref={setNextEl}
             type="button"
             aria-label="Next testimonial slide"
-            className="h-8 w-8 rounded-full border border-orange-200 bg-white text-stone-700 hover:bg-orange-600 hover:border-orange-600 hover:text-white inline-flex items-center justify-center shadow-xs transition cursor-pointer"
+            className="h-8 w-8 rounded-full border border-orange-200 bg-white text-stone-700 hover:bg-orange-600 hover:border-orange-600 hover:text-white active:scale-95 inline-flex items-center justify-center shadow-xs transition-all duration-200 cursor-pointer"
           >
             <ChevronRight className="h-4 w-4" />
           </button>

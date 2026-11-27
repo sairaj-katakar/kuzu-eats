@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import { productsData } from "@/data/productsData";
 import ProductCard from "./ProductCard";
 
@@ -11,12 +12,16 @@ const CATEGORIES = [
   "Growth Packs",
 ] as const;
 
+const MIN_PRICE = 1000;
+const MAX_PRICE = 15000;
+
 type SortOption = "featured" | "price-asc" | "price-desc" | "rating";
 
-const formatPrice = (price: number) =>
-  `₹${price.toLocaleString("en-IN")}`;
+const formatPrice = (price: number) => `₹${price.toLocaleString("en-IN")}`;
 
-const getStartingPrice = (variants: typeof productsData[number]["variants"]) => {
+const getStartingPrice = (
+  variants: (typeof productsData)[number]["variants"]
+) => {
   const available = variants.filter((variant) => variant.inStock);
   const prices = (available.length > 0 ? available : variants).map(
     (variant) => variant.price
@@ -28,7 +33,7 @@ const getStartingPrice = (variants: typeof productsData[number]["variants"]) => 
 export default function ProductsCatalog() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
-  const [maxPrice, setMaxPrice] = useState(15000);
+  const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>("featured");
 
@@ -52,7 +57,8 @@ export default function ProductsCatalog() {
         selectedCategory === "All" || product.category === selectedCategory;
 
       const matchingVariants = product.variants.filter(
-        (variant) => variant.price <= maxPrice && (!inStockOnly || variant.inStock)
+        (variant) =>
+          variant.price <= maxPrice && (!inStockOnly || variant.inStock)
       );
 
       const matchesPrice = matchingVariants.length > 0;
@@ -78,8 +84,9 @@ export default function ProductsCatalog() {
   }, [searchQuery, selectedCategory, maxPrice, inStockOnly, sortBy]);
 
   const activeFilterCount = [
+    searchQuery.trim() !== "",
     selectedCategory !== "All",
-    maxPrice !== 15000,
+    maxPrice !== MAX_PRICE,
     inStockOnly,
     sortBy !== "featured",
   ].filter(Boolean).length;
@@ -87,7 +94,7 @@ export default function ProductsCatalog() {
   const handleReset = () => {
     setSearchQuery("");
     setSelectedCategory("All");
-    setMaxPrice(15000);
+    setMaxPrice(MAX_PRICE);
     setInStockOnly(false);
     setSortBy("featured");
   };
@@ -98,13 +105,19 @@ export default function ProductsCatalog() {
       className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-14 lg:px-8"
     >
       {/* Catalog Heading */}
-      <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: "some" }}
+        transition={{ duration: 0.45 }}
+        className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between"
+      >
         <div>
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">
             Explore Our Collection
           </span>
 
-          <h2 className="mt-2 text-2xl font-black tracking-tight text-neutral-900 sm:text-3xl">
+          <h2 className="mt-2 font-[family-name:var(--font-playfair)] text-2xl font-black tracking-tight text-neutral-900 sm:text-3xl">
             Find the Right Solution
           </h2>
 
@@ -116,12 +129,18 @@ export default function ProductsCatalog() {
 
         <div className="flex items-center gap-2 self-start rounded-full bg-emerald-50/80 px-3 py-1.5 text-xs font-semibold text-emerald-700 sm:self-auto sm:bg-transparent sm:p-0 sm:text-sm sm:font-medium sm:text-neutral-500">
           <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
-          Updated Product Pricing
+          <span>Updated Product Pricing</span>
         </div>
-      </div>
+      </motion.div>
 
       {/* Filter Panel */}
-      <div className="rounded-2xl border border-orange-100 bg-white p-4 shadow-sm sm:rounded-3xl sm:p-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: "some" }}
+        transition={{ duration: 0.45, delay: 0.05 }}
+        className="rounded-2xl border border-orange-100 bg-white p-4 shadow-sm sm:rounded-3xl sm:p-6"
+      >
         <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
           {/* Search */}
           <div className="lg:col-span-1">
@@ -143,7 +162,7 @@ export default function ProductsCatalog() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search products, features, SKU..."
-                className="min-h-11 w-full rounded-xl border border-neutral-200 bg-neutral-50 py-2.5 pl-10 pr-4 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
+                className="min-h-11 w-full rounded-xl border border-neutral-200 bg-neutral-50 py-2.5 pl-10 pr-4 text-sm text-neutral-900 outline-none transition-all duration-200 placeholder:text-neutral-400 focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
               />
             </div>
           </div>
@@ -166,8 +185,8 @@ export default function ProductsCatalog() {
             <input
               id="product-price"
               type="range"
-              min={1000}
-              max={15000}
+              min={MIN_PRICE}
+              max={MAX_PRICE}
               step={500}
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
@@ -175,8 +194,8 @@ export default function ProductsCatalog() {
             />
 
             <div className="flex justify-between text-[11px] font-medium text-neutral-400">
-              <span>₹1,000</span>
-              <span>₹15,000+</span>
+              <span>{formatPrice(MIN_PRICE)}</span>
+              <span>{formatPrice(MAX_PRICE)}+</span>
             </div>
           </div>
 
@@ -193,7 +212,7 @@ export default function ProductsCatalog() {
               id="product-sort"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="min-h-11 w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 text-sm font-medium text-neutral-800 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
+              className="min-h-11 w-full cursor-pointer rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 text-sm font-medium text-neutral-800 outline-none transition-all duration-200 focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
             >
               <option value="featured">Recommended</option>
               <option value="price-asc">Price: Low to High</option>
@@ -219,7 +238,7 @@ export default function ProductsCatalog() {
                   type="button"
                   aria-pressed={active}
                   onClick={() => setSelectedCategory(category)}
-                  className={`min-h-10 shrink-0 rounded-full px-4 py-2 text-xs font-bold transition sm:text-sm ${
+                  className={`min-h-10 shrink-0 cursor-pointer rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 active:scale-95 sm:text-sm ${
                     active
                       ? "bg-orange-600 text-white shadow-md shadow-orange-200"
                       : "border border-neutral-200 bg-neutral-50 text-neutral-600 hover:border-orange-300 hover:bg-orange-50 hover:text-orange-700"
@@ -239,9 +258,9 @@ export default function ProductsCatalog() {
               type="checkbox"
               checked={inStockOnly}
               onChange={(e) => setInStockOnly(e.target.checked)}
-              className="h-4 w-4 rounded accent-orange-600"
+              className="h-4 w-4 cursor-pointer rounded accent-orange-600"
             />
-            Show available products only
+            <span>Show available products only</span>
           </label>
 
           <div className="flex items-center justify-between gap-3 sm:justify-end">
@@ -252,13 +271,13 @@ export default function ProductsCatalog() {
             <button
               type="button"
               onClick={handleReset}
-              className="min-h-10 rounded-lg border border-orange-200 px-4 py-2 text-xs font-bold text-orange-700 transition hover:bg-orange-50"
+              className="min-h-10 cursor-pointer rounded-lg border border-orange-200 px-4 py-2 text-xs font-bold text-orange-700 transition-all duration-200 hover:bg-orange-50 active:scale-95"
             >
               Reset Filters ↺
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Results Information */}
       <div className="mb-5 mt-7 flex flex-wrap items-center justify-between gap-3 sm:mt-8">
@@ -280,12 +299,26 @@ export default function ProductsCatalog() {
       {/* Product Grid */}
       {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {filteredProducts.map((product, index) => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: "some" }}
+              transition={{ duration: 0.35, delay: index * 0.05 }}
+              className="h-full"
+            >
+              <ProductCard product={product} />
+            </motion.div>
           ))}
         </div>
       ) : (
-        <div className="rounded-3xl border border-dashed border-orange-200 bg-orange-50/40 px-5 py-14 text-center sm:py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="rounded-3xl border border-dashed border-orange-200 bg-orange-50/40 px-5 py-14 text-center sm:py-20"
+        >
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-3xl shadow-sm">
             🔍
           </div>
@@ -302,11 +335,11 @@ export default function ProductsCatalog() {
           <button
             type="button"
             onClick={handleReset}
-            className="mt-6 min-h-11 rounded-xl bg-orange-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-orange-200 transition hover:bg-orange-700"
+            className="mt-6 min-h-11 cursor-pointer rounded-xl bg-orange-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-orange-200 transition-all duration-200 hover:bg-orange-700 active:scale-95"
           >
             Clear All Filters
           </button>
-        </div>
+        </motion.div>
       )}
     </section>
   );

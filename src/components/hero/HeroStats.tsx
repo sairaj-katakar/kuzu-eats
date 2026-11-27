@@ -39,21 +39,21 @@ export default function HeroStats() {
         return (
           <motion.div
             key={item.title}
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.12 }}
+            viewport={{ once: true, amount: "some" }}
+            transition={{ duration: 0.5, delay: index * 0.12, ease: "easeOut" }}
             whileHover={{ y: -6 }}
-            className="group relative overflow-hidden rounded-2xl border border-white/20 bg-stone-950/65 p-5 text-left shadow-xl backdrop-blur-xl transition-all hover:border-orange-400/60 hover:bg-stone-900/85"
+            className="group relative overflow-hidden rounded-2xl border border-white/20 bg-stone-950/65 p-5 text-left shadow-xl backdrop-blur-xl transition-all duration-300 hover:border-orange-400/60 hover:bg-stone-900/85 hover:shadow-2xl"
           >
-            <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-orange-500/10 blur-2xl transition group-hover:bg-orange-500/25" />
+            <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-orange-500/10 blur-2xl transition-all duration-300 group-hover:scale-125 group-hover:bg-orange-500/25" />
 
             <div className="relative flex items-start justify-between">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-500/15 text-orange-400">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-500/15 text-orange-400 transition-transform duration-300 group-hover:scale-110">
                 <Icon className="h-5 w-5" />
               </div>
 
-              <ArrowUpRight className="h-4 w-4 text-stone-500 transition group-hover:text-orange-400" />
+              <ArrowUpRight className="h-4 w-4 text-stone-500 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-orange-400" />
             </div>
 
             <div className="relative mt-5">

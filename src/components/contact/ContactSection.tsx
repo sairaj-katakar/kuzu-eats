@@ -18,8 +18,9 @@ import {
   Loader2,
   AlertCircle,
   MessageCircle,
+  Share2,
 } from "lucide-react";
-import { siteConfig } from "@/data/siteData";
+import { BRAND_CONTACT } from "@/data/siteData";
 
 const INQUIRY_TOPICS = [
   "New Restaurant Partnership",
@@ -34,7 +35,6 @@ const CALLBACK_SLOTS = [
   "Evening (6 PM - 9 PM)",
 ];
 
-// Replace with your free key from https://web3forms.com
 const WEB3FORMS_ACCESS_KEY = "5856b2f3-81ce-424e-b85b-8e6d7837c087";
 
 export default function ContactSection() {
@@ -70,13 +70,13 @@ export default function ContactSection() {
   };
 
   const buildWhatsAppUrl = () => {
-    const cleanPhone = siteConfig.contact.phone.replace(/\D/g, "");
+    const cleanPhone = BRAND_CONTACT.phone.replace(/\D/g, "");
     const text = [
-      `*New Kuzueats Inquiry*`,
+      `*New ${BRAND_CONTACT.brandName} Inquiry*`,
       `*Topic:* ${formData.topic}`,
       `*Name:* ${formData.name}`,
       formData.restaurantName
-        ? `*Restaurant / Café:* ${formData.restaurantName}`
+        ? `*Restaurant / Cafe:* ${formData.restaurantName}`
         : null,
       `*Email:* ${formData.email}`,
       formData.phone ? `*Phone:* ${formData.phone}` : null,
@@ -112,8 +112,8 @@ export default function ContactSection() {
         },
         body: JSON.stringify({
           access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `Kuzueats Inquiry: ${formData.topic} - ${formData.name}`,
-          from_name: "Kuzueats Website",
+          subject: `${BRAND_CONTACT.brandName} Inquiry: ${formData.topic} - ${formData.name}`,
+          from_name: `${BRAND_CONTACT.brandName} Website`,
           name: formData.name,
           restaurant_name: formData.restaurantName || "Not specified",
           email: formData.email,
@@ -167,7 +167,7 @@ export default function ContactSection() {
       <div className="relative py-20 sm:py-24 overflow-hidden">
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-cover bg-center opacity-20 scale-105"
+          className="absolute inset-0 bg-cover bg-center opacity-20 scale-105 transition-transform duration-700"
           style={{
             backgroundImage:
               "url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=80')",
@@ -182,7 +182,7 @@ export default function ContactSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
           className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center"
         >
           <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-100/95 border border-orange-200/80 px-4 py-1 text-xs font-bold uppercase tracking-wider text-orange-700 mb-3 shadow-2xs">
@@ -190,7 +190,7 @@ export default function ContactSection() {
             <span>Get In Touch</span>
           </span>
           <h2 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl lg:text-5xl font-bold text-stone-900">
-            Contact <span className="text-orange-600">Kuzueats</span>
+            Contact <span className="text-orange-600">{BRAND_CONTACT.brandName}</span>
           </h2>
           <p className="mt-3.5 text-sm sm:text-base text-stone-600 max-w-2xl mx-auto leading-relaxed">
             Have a question or want to launch your restaurant&apos;s
@@ -198,7 +198,6 @@ export default function ContactSection() {
             will guide you step-by-step.
           </p>
 
-          {/* Trust Highlights */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold text-stone-700">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 border border-orange-100 px-3.5 py-1.5 shadow-2xs">
               <Clock className="h-3.5 w-3.5 text-orange-600" />
@@ -215,12 +214,12 @@ export default function ContactSection() {
       {/* Main Content Grid */}
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-20 sm:pb-24 -mt-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Contact Details & Support Card */}
+          {/* Left Column: Contact Details & Social Channels */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
             className="lg:col-span-5 space-y-5 rounded-3xl bg-white p-6 sm:p-8 shadow-xl shadow-orange-950/5 border border-orange-100"
           >
             <div>
@@ -234,7 +233,7 @@ export default function ContactSection() {
 
             <div className="space-y-4 pt-1">
               {/* Address */}
-              <div className="flex items-start gap-4 rounded-2xl bg-[#FFFBF5] border border-orange-100/80 p-4">
+              <div className="flex items-start gap-4 rounded-2xl bg-[#FFFBF5] border border-orange-100/80 p-4 hover:border-orange-200 transition-colors">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-orange-600">
                   <MapPin className="h-5 w-5" />
                 </span>
@@ -243,13 +242,13 @@ export default function ContactSection() {
                     Our Address
                   </h4>
                   <p className="mt-1 text-sm text-stone-700 leading-relaxed">
-                    {siteConfig.contact.address}
+                    {BRAND_CONTACT.address}
                   </p>
                 </div>
               </div>
 
-              {/* Phone with One-Click Copy */}
-              <div className="flex items-center justify-between gap-3 rounded-2xl bg-[#FFFBF5] border border-orange-100/80 p-4">
+              {/* Phone */}
+              <div className="flex items-center justify-between gap-3 rounded-2xl bg-[#FFFBF5] border border-orange-100/80 p-4 hover:border-orange-200 transition-colors">
                 <div className="flex items-start gap-4">
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-orange-600">
                     <Phone className="h-5 w-5" />
@@ -259,16 +258,16 @@ export default function ContactSection() {
                       Phone
                     </h4>
                     <a
-                      href={`tel:${siteConfig.contact.phone.replace(/\s+/g, "")}`}
+                      href={BRAND_CONTACT.phoneHref}
                       className="mt-1 inline-block text-sm font-medium text-stone-700 hover:text-orange-600 transition"
                     >
-                      {siteConfig.contact.phone}
+                      {BRAND_CONTACT.phone}
                     </a>
                   </div>
                 </div>
                 <button
                   type="button"
-                  onClick={() => handleCopy(siteConfig.contact.phone, "phone")}
+                  onClick={() => handleCopy(BRAND_CONTACT.phone, "phone")}
                   aria-label="Copy phone number"
                   className="inline-flex items-center gap-1 rounded-lg border border-orange-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-stone-600 hover:text-orange-600 hover:border-orange-300 transition cursor-pointer shrink-0"
                 >
@@ -286,8 +285,8 @@ export default function ContactSection() {
                 </button>
               </div>
 
-              {/* Email with One-Click Copy */}
-              <div className="flex items-center justify-between gap-3 rounded-2xl bg-[#FFFBF5] border border-orange-100/80 p-4">
+              {/* Email */}
+              <div className="flex items-center justify-between gap-3 rounded-2xl bg-[#FFFBF5] border border-orange-100/80 p-4 hover:border-orange-200 transition-colors">
                 <div className="flex items-start gap-4 min-w-0">
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-orange-600">
                     <Mail className="h-5 w-5" />
@@ -297,16 +296,16 @@ export default function ContactSection() {
                       Email
                     </h4>
                     <a
-                      href={`mailto:${siteConfig.contact.email}`}
+                      href={BRAND_CONTACT.emailHref}
                       className="mt-1 block truncate text-sm font-medium text-stone-700 hover:text-orange-600 transition"
                     >
-                      {siteConfig.contact.email}
+                      {BRAND_CONTACT.email}
                     </a>
                   </div>
                 </div>
                 <button
                   type="button"
-                  onClick={() => handleCopy(siteConfig.contact.email, "email")}
+                  onClick={() => handleCopy(BRAND_CONTACT.email, "email")}
                   aria-label="Copy email address"
                   className="inline-flex items-center gap-1 rounded-lg border border-orange-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-stone-600 hover:text-orange-600 hover:border-orange-300 transition cursor-pointer shrink-0"
                 >
@@ -324,8 +323,8 @@ export default function ContactSection() {
                 </button>
               </div>
 
-              {/* Partner Support Hours */}
-              <div className="flex items-start gap-4 rounded-2xl bg-[#FFFBF5] border border-orange-100/80 p-4">
+              {/* Support Hours */}
+              <div className="flex items-start gap-4 rounded-2xl bg-[#FFFBF5] border border-orange-100/80 p-4 hover:border-orange-200 transition-colors">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-orange-600">
                   <Clock className="h-5 w-5" />
                 </span>
@@ -334,8 +333,31 @@ export default function ContactSection() {
                     Partner Support Hours
                   </h4>
                   <p className="mt-1 text-xs sm:text-sm text-stone-700">
-                    Mon – Sat: 9:30 AM – 8:30 PM IST
+                    {BRAND_CONTACT.supportHours}
                   </p>
+                </div>
+              </div>
+
+              {/* Social Media Channels */}
+              <div className="rounded-2xl bg-[#FFFBF5] border border-orange-100/80 p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Share2 className="h-4 w-4 text-orange-600" />
+                  <h4 className="text-sm font-extrabold text-orange-600">
+                    Social Channels
+                  </h4>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {BRAND_CONTACT.socials.map((social) => (
+                    <a
+                      key={social.name}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full bg-white border border-orange-200/80 px-3 py-1.5 text-xs font-semibold text-stone-700 hover:border-orange-400 hover:text-orange-600 transition-colors"
+                    >
+                      {social.name} — {social.handle}
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
@@ -352,7 +374,7 @@ export default function ContactSection() {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
             className="lg:col-span-7 rounded-3xl bg-white p-6 sm:p-8 shadow-xl shadow-orange-950/5 border border-orange-100"
           >
             <AnimatePresence mode="wait">
@@ -374,8 +396,9 @@ export default function ContactSection() {
                   <p className="text-sm sm:text-base text-stone-600 max-w-md mx-auto leading-relaxed">
                     Thank you,{" "}
                     <strong className="text-stone-900">{formData.name}</strong>.
-                    Your message has been delivered to our team, and a Kuzueats
-                    specialist will connect with you during{" "}
+                    Your message has been delivered to our team, and a{" "}
+                    {BRAND_CONTACT.brandName} specialist will connect with you
+                    during{" "}
                     <strong className="text-stone-900">
                       {formData.callbackSlot}
                     </strong>{" "}
@@ -413,7 +436,6 @@ export default function ContactSection() {
                   onSubmit={handleSubmit}
                   className="space-y-5"
                 >
-                  {/* Topic Quick Selector */}
                   <div>
                     <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-stone-600 mb-2.5">
                       <Store className="h-3.5 w-3.5 text-orange-600" />
@@ -442,7 +464,6 @@ export default function ContactSection() {
                     </div>
                   </div>
 
-                  {/* Name & Restaurant Name */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label
@@ -467,7 +488,7 @@ export default function ContactSection() {
                         htmlFor="restaurantName"
                         className="block text-xs font-bold text-stone-700 mb-1.5"
                       >
-                        Restaurant / Café Name
+                        Restaurant / Cafe Name
                       </label>
                       <input
                         id="restaurantName"
@@ -481,7 +502,6 @@ export default function ContactSection() {
                     </div>
                   </div>
 
-                  {/* Email & Phone */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label
@@ -512,7 +532,7 @@ export default function ContactSection() {
                         id="phone"
                         name="phone"
                         type="tel"
-                        placeholder="+91 98765 43210"
+                        placeholder="+975-16170000"
                         value={formData.phone}
                         onChange={handleChange}
                         className="w-full rounded-xl border border-stone-200 bg-[#FFFBF5] px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-orange-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition"
@@ -520,7 +540,6 @@ export default function ContactSection() {
                     </div>
                   </div>
 
-                  {/* Preferred Callback Time Slot */}
                   <div>
                     <label className="flex items-center gap-1.5 text-xs font-bold text-stone-700 mb-2">
                       <CalendarClock className="h-3.5 w-3.5 text-orange-600" />
@@ -552,7 +571,6 @@ export default function ContactSection() {
                     </div>
                   </div>
 
-                  {/* Message */}
                   <div>
                     <label
                       htmlFor="message"
@@ -572,7 +590,6 @@ export default function ContactSection() {
                     />
                   </div>
 
-                  {/* Error Alert if Delivery Fails */}
                   {errorMsg && (
                     <div className="flex items-start gap-2.5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-700">
                       <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-600" />

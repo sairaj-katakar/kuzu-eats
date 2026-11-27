@@ -13,6 +13,7 @@ import {
   ShoppingBag,
   Heart,
 } from "lucide-react";
+import { BRAND_CONTACT } from "@/data/siteData";
 
 const TABS = [
   {
@@ -103,12 +104,13 @@ export default function HomeGrowthShowcase() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: "some" }}
+          transition={{ duration: 0.5 }}
           className="mx-auto mb-12 max-w-3xl text-center"
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-100 px-4 py-2 text-xs font-bold uppercase tracking-wider text-orange-700">
             <Sparkles className="h-4 w-4" />
-            The KuzuEats Advantage
+            The {BRAND_CONTACT.brandName} Advantage
           </span>
 
           <h2 className="mt-5 font-[family-name:var(--font-playfair)] text-3xl font-bold leading-tight text-stone-900 sm:text-5xl">
@@ -135,7 +137,7 @@ export default function HomeGrowthShowcase() {
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
                 aria-pressed={isActive}
-                className={`rounded-full px-5 py-3 text-xs font-bold transition-all sm:text-sm ${
+                className={`rounded-full px-5 py-3 text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer sm:text-sm ${
                   isActive
                     ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg shadow-orange-500/20"
                     : "border border-orange-200 bg-white text-stone-700 hover:border-orange-400 hover:text-orange-600"
@@ -174,20 +176,20 @@ export default function HomeGrowthShowcase() {
                 {selected.highlights.map((item) => (
                   <div
                     key={item}
-                    className="flex items-start gap-2 rounded-xl border border-orange-100 bg-[#FFFBF5] p-3 text-xs font-semibold leading-relaxed text-stone-700"
+                    className="flex items-start gap-2 rounded-xl border border-orange-100 bg-[#FFFBF5] p-3 text-xs font-semibold leading-relaxed text-stone-700 transition-all duration-200 hover:border-orange-200"
                   >
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                    {item}
+                    <span>{item}</span>
                   </div>
                 ))}
               </div>
 
               <Link
                 href="/about"
-                className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-orange-600 transition hover:gap-3"
+                className="group mt-8 inline-flex items-center gap-2 text-sm font-bold text-orange-600 transition-all duration-200 hover:gap-3"
               >
-                Discover how it works
-                <ArrowRight className="h-4 w-4" />
+                <span>Discover how it works</span>
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
             </div>
 
@@ -216,9 +218,9 @@ export default function HomeGrowthShowcase() {
 
               <Link
                 href="/contact"
-                className="relative mt-9 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-3.5 text-sm font-bold text-white transition hover:brightness-110"
+                className="relative mt-9 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-3.5 text-sm font-bold text-white transition-all duration-200 hover:brightness-110 active:scale-95"
               >
-                Start With KuzuEats
+                <span>Start With {BRAND_CONTACT.brandName}</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -235,13 +237,13 @@ export default function HomeGrowthShowcase() {
                 key={item.step}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true, amount: "some" }}
+                transition={{ delay: index * 0.1, duration: 0.45 }}
                 whileHover={{ y: -6 }}
-                className="group rounded-2xl border border-orange-100 bg-white p-6 shadow-sm transition hover:shadow-xl hover:shadow-orange-950/5"
+                className="group rounded-2xl border border-orange-100 bg-white p-6 shadow-sm transition-all duration-300 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-950/5"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100 text-orange-600 transition group-hover:bg-orange-500 group-hover:text-white">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100 text-orange-600 transition-all duration-300 group-hover:scale-105 group-hover:bg-orange-500 group-hover:text-white">
                     <Icon className="h-5 w-5" />
                   </div>
 

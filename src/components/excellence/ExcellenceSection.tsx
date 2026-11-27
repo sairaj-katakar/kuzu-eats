@@ -3,7 +3,34 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Award } from "lucide-react";
-import { excellenceItems } from "./excellenceData";
+import { excellenceItems, type ExcellenceItem } from "./excellenceData";
+
+function ExcellenceCardImage({
+  item,
+  className,
+}: {
+  item: ExcellenceItem;
+  className: string;
+}) {
+  const [imgSrc, setImgSrc] = useState(item.image);
+
+  useEffect(() => {
+    setImgSrc(item.image);
+  }, [item.image]);
+
+  return (
+    <img
+      src={imgSrc}
+      alt={item.title}
+      onError={() => {
+        if (imgSrc !== item.fallbackImage) {
+          setImgSrc(item.fallbackImage);
+        }
+      }}
+      className={className}
+    />
+  );
+}
 
 export default function ExcellenceSection() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -25,20 +52,21 @@ export default function ExcellenceSection() {
   return (
     <section
       id="excellence"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
       className="relative py-20 sm:py-24 bg-[#FFFBF5] overflow-hidden"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: "some" }}
           transition={{ duration: 0.5 }}
           className="text-center max-w-2xl mx-auto mb-12 lg:mb-14"
         >
           <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-4 py-1 text-xs font-bold uppercase tracking-wider text-orange-700 mb-3">
             <Award className="h-3.5 w-3.5" />
-            Culinary Standards
+            <span>Culinary Standards</span>
           </span>
           <h2 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl lg:text-5xl font-bold text-stone-900">
             Our Commitment to{" "}
@@ -80,9 +108,8 @@ export default function ExcellenceSection() {
                 className="group w-full rounded-3xl bg-white border border-orange-100/90 shadow-md overflow-hidden flex flex-col cursor-grab active:cursor-grabbing"
               >
                 <div className="relative h-52 w-full overflow-hidden bg-stone-100">
-                  <img
-                    src={currentItem.image}
-                    alt={currentItem.title}
+                  <ExcellenceCardImage
+                    item={currentItem}
                     className="h-full w-full object-cover"
                   />
                   <span className="absolute top-3 left-3 rounded-full bg-stone-950/75 backdrop-blur-sm px-3 py-1 text-[11px] font-semibold text-amber-300">
@@ -104,7 +131,6 @@ export default function ExcellenceSection() {
             </AnimatePresence>
           </div>
 
-          {/* Indicator Dots Only */}
           <div className="mt-6 flex items-center justify-center gap-2">
             {excellenceItems.map((item, idx) => {
               const isActive = idx === activeIndex;
@@ -114,7 +140,7 @@ export default function ExcellenceSection() {
                   type="button"
                   onClick={() => setActiveIndex(idx)}
                   aria-label={`Card ${idx + 1}`}
-                  className={`h-2 rounded-full transition-all cursor-pointer ${
+                  className={`h-2 rounded-full transition-all duration-200 cursor-pointer ${
                     isActive
                       ? "w-5 bg-orange-600"
                       : "w-2 bg-stone-300 hover:bg-stone-400"
@@ -132,14 +158,14 @@ export default function ExcellenceSection() {
               key={item.id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{ once: true, amount: "some" }}
               transition={{ duration: 0.45, delay: idx * 0.08 }}
+              whileHover={{ y: -6 }}
               className="group rounded-3xl bg-white border border-orange-100/90 shadow-md hover:shadow-xl hover:border-orange-300 transition-all duration-300 overflow-hidden flex flex-col"
             >
               <div className="relative h-48 w-full overflow-hidden bg-stone-100">
-                <img
-                  src={item.image}
-                  alt={item.title}
+                <ExcellenceCardImage
+                  item={item}
                   className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <span className="absolute top-3 left-3 rounded-full bg-stone-950/75 backdrop-blur-sm px-3 py-1 text-[11px] font-semibold text-amber-300">

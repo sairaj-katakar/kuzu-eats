@@ -14,6 +14,7 @@ import {
   Headphones,
   BarChart3,
 } from "lucide-react";
+import { BRAND_CONTACT } from "@/data/siteData";
 
 const FEATURES = [
   {
@@ -70,7 +71,7 @@ const COMPARISON = [
   {
     feature: "Commission on direct orders",
     other: "Platform-dependent charges",
-    kuzu: "0% KuzuEats commission",
+    kuzu: `0% ${BRAND_CONTACT.brandName} commission`,
   },
   {
     feature: "Customer relationship",
@@ -101,7 +102,8 @@ export default function HomeFeatures() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: "some" }}
+            transition={{ duration: 0.5 }}
             className="mx-auto mb-12 max-w-3xl text-center"
           >
             <span className="rounded-full bg-orange-100 px-4 py-2 text-xs font-bold uppercase tracking-wider text-orange-700">
@@ -110,7 +112,7 @@ export default function HomeFeatures() {
 
             <h2 className="mt-5 font-[family-name:var(--font-playfair)] text-3xl font-bold text-stone-900 sm:text-5xl">
               Crafted for{" "}
-              <span className="text-orange-600">Hungry Guests</span> & Growing
+              <span className="text-orange-600">Hungry Guests</span> &amp; Growing
               Kitchens
             </h2>
 
@@ -130,12 +132,12 @@ export default function HomeFeatures() {
                   key={item.title}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.07 }}
-                  className="group flex w-[82vw] max-w-[330px] shrink-0 snap-center flex-col rounded-3xl border border-orange-100 bg-white p-6 shadow-sm transition-all hover:border-orange-200 hover:shadow-xl hover:shadow-orange-950/5 sm:w-auto sm:max-w-none sm:shrink sm:p-7 sm:hover:-translate-y-1.5"
+                  viewport={{ once: true, amount: "some" }}
+                  transition={{ delay: index * 0.07, duration: 0.45 }}
+                  className="group flex w-[82vw] max-w-[330px] shrink-0 snap-center flex-col rounded-3xl border border-orange-100 bg-white p-6 shadow-sm transition-all duration-300 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-950/5 sm:w-auto sm:max-w-none sm:shrink sm:p-7 sm:hover:-translate-y-1.5"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex h-13 w-13 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 p-3 text-white shadow-lg shadow-orange-500/20 transition group-hover:scale-110">
+                    <div className="flex h-13 w-13 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 p-3 text-white shadow-lg shadow-orange-500/20 transition-transform duration-300 group-hover:scale-110">
                       <Icon className="h-6 w-6" />
                     </div>
 
@@ -158,10 +160,10 @@ export default function HomeFeatures() {
 
                   <Link
                     href="/about"
-                    className="mt-6 inline-flex items-center gap-2 border-t border-stone-100 pt-5 text-sm font-bold text-orange-600 transition group-hover:gap-3"
+                    className="mt-6 inline-flex items-center gap-2 border-t border-stone-100 pt-5 text-sm font-bold text-orange-600 transition-all duration-200 group-hover:gap-3"
                   >
-                    Explore Feature
-                    <ArrowRight className="h-4 w-4" />
+                    <span>Explore Feature</span>
+                    <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
                   </Link>
                 </motion.div>
               );
@@ -173,7 +175,8 @@ export default function HomeFeatures() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: "some" }}
+          transition={{ duration: 0.5 }}
           className="overflow-hidden rounded-3xl border border-orange-100 bg-white p-6 shadow-lg shadow-orange-950/5 sm:p-9"
         >
           <div className="mb-8">
@@ -196,13 +199,15 @@ export default function HomeFeatures() {
               <div className="grid grid-cols-12 rounded-xl bg-stone-50 px-4 py-4 text-xs font-bold uppercase tracking-wider text-stone-500">
                 <div className="col-span-6">Comparison</div>
                 <div className="col-span-3">Other platforms</div>
-                <div className="col-span-3 text-orange-600">KuzuEats</div>
+                <div className="col-span-3 text-orange-600">
+                  {BRAND_CONTACT.brandName}
+                </div>
               </div>
 
               {COMPARISON.map((item) => (
                 <div
                   key={item.feature}
-                  className="grid grid-cols-12 items-center gap-2 border-b border-stone-100 px-4 py-5 text-xs sm:text-sm"
+                  className="grid grid-cols-12 items-center gap-2 border-b border-stone-100 px-4 py-5 text-xs transition-colors duration-200 hover:bg-orange-50/40 sm:text-sm"
                 >
                   <div className="col-span-6 font-bold text-stone-800">
                     {item.feature}
@@ -210,12 +215,12 @@ export default function HomeFeatures() {
 
                   <div className="col-span-3 flex items-start gap-2 text-stone-500">
                     <X className="h-4 w-4 shrink-0 text-rose-500" />
-                    {item.other}
+                    <span>{item.other}</span>
                   </div>
 
                   <div className="col-span-3 flex items-start gap-2 font-bold text-emerald-700">
                     <Check className="h-4 w-4 shrink-0 text-emerald-600" />
-                    {item.kuzu}
+                    <span>{item.kuzu}</span>
                   </div>
                 </div>
               ))}
@@ -227,7 +232,8 @@ export default function HomeFeatures() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: "some" }}
+          transition={{ duration: 0.5 }}
           className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-stone-950 via-stone-900 to-orange-950 p-8 text-white shadow-2xl sm:p-12"
         >
           <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-orange-500/20 blur-[80px]" />
@@ -254,15 +260,15 @@ export default function HomeFeatures() {
             <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-7 py-4 text-sm font-bold text-white shadow-lg transition hover:-translate-y-1 hover:brightness-110"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-7 py-4 text-sm font-bold text-white shadow-lg transition-all duration-200 hover:-translate-y-1 hover:brightness-110 active:scale-95"
               >
-                Get Started
+                <span>Get Started</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
 
               <Link
                 href="/login"
-                className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-7 py-4 text-sm font-bold text-white transition hover:bg-white/20"
+                className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-7 py-4 text-sm font-bold text-white transition-all duration-200 hover:bg-white/20 active:scale-95"
               >
                 Partner Login
               </Link>

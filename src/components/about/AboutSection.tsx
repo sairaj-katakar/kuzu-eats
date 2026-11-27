@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -18,7 +17,7 @@ import {
   ShoppingBag,
   Zap,
 } from "lucide-react";
-import { siteConfig } from "@/data/siteData";
+import { BRAND_CONTACT } from "@/data/siteData";
 
 const highlights = [
   {
@@ -66,22 +65,20 @@ const focusPoints = [
 const ABOUT_HERO_BG =
   "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1800&q=85";
 
+const ABOUT_SHOWCASE_FALLBACK = "/images/about-showcase.jpg";
+
 export default function AboutSection() {
   const [bgSrc, setBgSrc] = useState(ABOUT_HERO_BG);
+  const [showcaseSrc, setShowcaseSrc] = useState(ABOUT_SHOWCASE_FALLBACK);
 
   return (
-    <section
-      id="about"
-      className="relative overflow-hidden bg-[#FFFBF5]"
-    >
-      {/* ================= HERO SECTION ================= */}
-
+    <section id="about" className="relative overflow-hidden bg-[#FFFBF5]">
+      {/* HERO SECTION */}
       <div className="relative flex min-h-[430px] items-center justify-center overflow-hidden border-b border-orange-100 py-20 sm:min-h-[480px] sm:py-24">
-
         <img
           src={bgSrc}
           alt="Restaurant dining atmosphere"
-          onError={() => setBgSrc(siteConfig.images.aboutShowcase)}
+          onError={() => setBgSrc(ABOUT_SHOWCASE_FALLBACK)}
           className="absolute inset-0 h-full w-full scale-105 object-cover"
         />
 
@@ -93,7 +90,7 @@ export default function AboutSection() {
         <motion.div
           initial={{ opacity: 0, y: 35 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: "some" }}
           transition={{ duration: 0.7 }}
           className="relative z-10 mx-auto max-w-4xl px-5 text-center"
         >
@@ -105,20 +102,18 @@ export default function AboutSection() {
           <h1 className="font-[family-name:var(--font-playfair)] text-4xl font-bold leading-tight tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
             More Than Food.
             <br />
-            <span className="text-orange-600">
-              We're About Connections.
-            </span>
+            <span className="text-orange-600">We&apos;re About Connections.</span>
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-stone-700 sm:text-base sm:leading-8">
-            At <strong className="text-stone-950">Kuzueats</strong>, we believe
-            great food brings people together. We're building a smarter way for
-            restaurants, cafés and food entrepreneurs to grow their businesses,
-            connect directly with customers and keep more of what they earn.
+            At <strong className="text-stone-950">{BRAND_CONTACT.brandName}</strong>, we
+            believe great food brings people together. We&apos;re building a
+            smarter way for restaurants, cafés and food entrepreneurs to grow
+            their businesses, connect directly with customers and keep more of
+            what they earn.
           </p>
 
           {/* Metrics */}
-
           <div className="mx-auto mt-9 grid max-w-2xl grid-cols-3 gap-2.5 sm:gap-4">
             {QUICK_METRICS.map((metric, index) => {
               const Icon = metric.icon;
@@ -128,12 +123,12 @@ export default function AboutSection() {
                   key={metric.label}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: "some" }}
                   transition={{ delay: index * 0.12 }}
                   whileHover={{ y: -5 }}
-                  className="group rounded-2xl border border-orange-100 bg-white/95 p-3 shadow-sm backdrop-blur-md transition-shadow hover:shadow-lg sm:p-5"
+                  className="group rounded-2xl border border-orange-100 bg-white/95 p-3 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-lg sm:p-5"
                 >
-                  <Icon className="mx-auto mb-2 h-5 w-5 text-orange-500 transition-transform group-hover:scale-110" />
+                  <Icon className="mx-auto mb-2 h-5 w-5 text-orange-500 transition-transform duration-300 group-hover:scale-110" />
 
                   <p className="text-lg font-black text-orange-600 sm:text-2xl">
                     {metric.value}
@@ -149,29 +144,21 @@ export default function AboutSection() {
         </motion.div>
       </div>
 
-      {/* ================= ABOUT STORY ================= */}
-
+      {/* ABOUT STORY */}
       <div className="relative overflow-hidden py-20 sm:py-28">
-
         {/* Background decoration */}
-
         <div className="pointer-events-none absolute -right-32 top-10 h-96 w-96 rounded-full bg-orange-200/30 blur-[110px]" />
-
         <div className="pointer-events-none absolute -bottom-20 -left-32 h-96 w-96 rounded-full bg-amber-200/30 blur-[110px]" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-
             {/* LEFT CONTENT */}
-
             <motion.div
               initial={{ opacity: 0, x: -35 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{ once: true, amount: "some" }}
               transition={{ duration: 0.7 }}
             >
-
               <span className="mb-5 inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.16em] text-orange-600">
                 <TrendingUp className="h-4 w-4" />
                 Built for Independent Kitchens
@@ -184,9 +171,10 @@ export default function AboutSection() {
               </h2>
 
               <p className="mt-6 text-sm leading-7 text-stone-600 sm:text-base">
-                Whether you're running a neighbourhood café, a family-owned
-                restaurant or a growing food chain, Kuzueats brings essential
-                digital tools together in one convenient platform.
+                Whether you&apos;re running a neighbourhood café, a family-owned
+                restaurant or a growing food chain, {BRAND_CONTACT.brandName}{" "}
+                brings essential digital tools together in one convenient
+                platform.
               </p>
 
               <p className="mt-4 text-sm leading-7 text-stone-600 sm:text-base">
@@ -197,19 +185,17 @@ export default function AboutSection() {
               </p>
 
               {/* Focus points */}
-
               <div className="mt-7 space-y-3">
                 {focusPoints.map((point, index) => (
                   <motion.div
                     key={point}
                     initial={{ opacity: 0, x: -15 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, amount: "some" }}
                     transition={{ delay: index * 0.1 }}
                     className="flex items-start gap-3"
                   >
                     <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
-
                     <p className="text-sm font-medium leading-6 text-stone-700">
                       {point}
                     </p>
@@ -218,7 +204,6 @@ export default function AboutSection() {
               </div>
 
               {/* Feature Cards */}
-
               <div className="mt-9 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {highlights.map((item, index) => {
                   const Icon = item.icon;
@@ -228,7 +213,7 @@ export default function AboutSection() {
                       key={item.title}
                       initial={{ opacity: 0, y: 25 }}
                       whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, amount: 0.2 }}
+                      viewport={{ once: true, amount: "some" }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                       whileHover={{ y: -7 }}
                       className="group relative overflow-hidden rounded-2xl border border-orange-100 bg-white p-5 shadow-sm transition-all duration-300 hover:border-orange-300 hover:shadow-xl"
@@ -236,13 +221,12 @@ export default function AboutSection() {
                       <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-orange-50 transition-transform duration-500 group-hover:scale-150" />
 
                       <div className="relative z-10">
-
                         <div className="flex items-center justify-between">
                           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-600 transition-all duration-300 group-hover:bg-orange-600 group-hover:text-white">
                             <Icon className="h-5 w-5" />
                           </div>
 
-                          <ArrowUpRight className="h-4 w-4 text-stone-300 transition-all group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-orange-600" />
+                          <ArrowUpRight className="h-4 w-4 text-stone-300 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-orange-600" />
                         </div>
 
                         <span className="mt-4 inline-block text-[9px] font-extrabold uppercase tracking-wider text-orange-600">
@@ -264,34 +248,30 @@ export default function AboutSection() {
             </motion.div>
 
             {/* RIGHT IMAGE SHOWCASE */}
-
             <motion.div
               initial={{ opacity: 0, x: 35 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{ once: true, amount: "some" }}
               transition={{ duration: 0.7 }}
               className="relative mx-auto w-full max-w-xl"
             >
-
               {/* Decorative frame */}
-
               <div className="absolute -right-4 -top-4 h-full w-full rounded-[2rem] border-2 border-orange-200/70" />
 
               <div className="relative overflow-hidden rounded-[2rem] border-[5px] border-white bg-white shadow-2xl">
-
                 <img
-                  src={siteConfig.images.aboutShowcase}
+                  src={showcaseSrc}
                   alt="Delicious freshly prepared restaurant food"
                   loading="lazy"
+                  onError={() => setShowcaseSrc(ABOUT_HERO_BG)}
                   className="aspect-[4/4.2] w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent" />
 
                 <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-
                   <span className="inline-block rounded-full bg-orange-500 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
-                    The Kuzueats Promise
+                    The {BRAND_CONTACT.brandName} Promise
                   </span>
 
                   <h3 className="mt-3 font-[family-name:var(--font-playfair)] text-2xl font-bold text-white sm:text-3xl">
@@ -304,12 +284,10 @@ export default function AboutSection() {
                     Empowering food businesses with the freedom to grow,
                     connect and succeed.
                   </p>
-
                 </div>
               </div>
 
               {/* Floating ownership card */}
-
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{
@@ -334,7 +312,6 @@ export default function AboutSection() {
               </motion.div>
 
               {/* Floating partner card */}
-
               <motion.div
                 animate={{ y: [0, 7, 0] }}
                 transition={{
@@ -357,18 +334,14 @@ export default function AboutSection() {
                   </p>
                 </div>
               </motion.div>
-
             </motion.div>
-
           </div>
         </div>
       </div>
 
-      {/* ================= BRAND MESSAGE STRIP ================= */}
-
+      {/* BRAND MESSAGE STRIP */}
       <div className="border-y border-orange-100 bg-white/70 py-10">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-5 sm:grid-cols-3 sm:gap-5 sm:px-8">
-
           {[
             {
               icon: Store,
@@ -396,7 +369,7 @@ export default function AboutSection() {
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: "some" }}
                 transition={{ delay: index * 0.12 }}
                 className="flex items-start gap-4"
               >
@@ -418,7 +391,6 @@ export default function AboutSection() {
           })}
         </div>
       </div>
-
     </section>
   );
 }

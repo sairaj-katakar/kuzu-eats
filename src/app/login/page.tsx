@@ -11,24 +11,34 @@ import {
   EyeOff,
   ArrowRight,
   ShieldCheck,
+  AlertCircle,
+  CheckCircle2,
 } from "lucide-react";
+import { BRAND_CONTACT } from "@/data/siteData";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
-  const [submittedMessage, setSubmittedMessage] = useState("");
+  const [statusMessage, setStatusMessage] = useState<{
+    type: "error" | "success";
+    text: string;
+  } | null>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) {
-      setSubmittedMessage("Please enter both your email and password.");
+      setStatusMessage({
+        type: "error",
+        text: "Please enter both your email and password.",
+      });
       return;
     }
-    setSubmittedMessage(
-      `Welcome back! Signed in as ${email.trim()} (${rememberMe ? "Session saved" : "Single session"}).`
-    );
+    setStatusMessage({
+      type: "success",
+      text: `Welcome back! Signed in as ${email.trim()} (${rememberMe ? "Session saved" : "Single session"}).`,
+    });
   };
 
   return (
@@ -37,7 +47,7 @@ export default function LoginPage() {
       <div className="mx-auto w-full max-w-5xl flex items-center justify-between">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-full border border-orange-200/80 bg-white/90 px-4 py-2 text-xs sm:text-sm font-semibold text-stone-700 shadow-xs hover:border-orange-400 hover:text-orange-700 transition"
+          className="inline-flex items-center gap-2 rounded-full border border-orange-200/80 bg-white/90 px-4 py-2 text-xs sm:text-sm font-semibold text-stone-700 shadow-xs hover:border-orange-400 hover:text-orange-700 transition-all duration-200"
         >
           <ArrowLeft className="h-4 w-4" />
           <span>Back to Home</span>
@@ -54,15 +64,18 @@ export default function LoginPage() {
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
           className="rounded-3xl border border-orange-100 bg-white p-6 sm:p-8 shadow-xl shadow-orange-950/5"
         >
           {/* Brand Logo & Heading */}
           <div className="text-center mb-7">
-            <Link href="/" className="inline-flex items-center justify-center mb-4">
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center mb-4 transition-transform duration-300 hover:scale-105"
+            >
               <img
                 src="/images/logo.png"
-                alt="Kuzu Eats Logo"
+                alt={`${BRAND_CONTACT.brandName} Logo`}
                 className="h-16 sm:h-20 w-auto max-w-[200px] object-contain"
               />
             </Link>
@@ -91,7 +104,10 @@ export default function LoginPage() {
                   id="login-email"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (statusMessage) setStatusMessage(null);
+                  }}
                   placeholder="Enter email"
                   required
                   className="w-full rounded-xl border border-stone-200 bg-[#FFFDF9] pl-10 pr-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-orange-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition"
@@ -122,7 +138,10 @@ export default function LoginPage() {
                   id="login-password"
                   type={showPassword ? "text" : "password"}
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (statusMessage) setStatusMessage(null);
+                  }}
                   placeholder="Enter password"
                   required
                   className="w-full rounded-xl border border-stone-200 bg-[#FFFDF9] pl-10 pr-11 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-orange-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition"
@@ -158,22 +177,33 @@ export default function LoginPage() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-orange-600/25 hover:brightness-105 active:scale-[0.99] transition cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-orange-600/25 hover:brightness-105 active:scale-[0.99] transition-all cursor-pointer"
             >
               <span>Sign In to Dashboard</span>
               <ArrowRight className="h-4 w-4" />
             </button>
 
-            {submittedMessage && (
-              <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs sm:text-sm font-medium text-emerald-800">
-                {submittedMessage}
+            {statusMessage && (
+              <div
+                className={`flex items-start gap-2.5 rounded-xl border px-4 py-3 text-xs sm:text-sm font-medium ${
+                  statusMessage.type === "error"
+                    ? "border-red-200 bg-red-50 text-red-800"
+                    : "border-emerald-200 bg-emerald-50 text-emerald-800"
+                }`}
+              >
+                {statusMessage.type === "error" ? (
+                  <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-600" />
+                ) : (
+                  <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-emerald-600" />
+                )}
+                <span>{statusMessage.text}</span>
               </div>
             )}
           </form>
 
           {/* Footer Link */}
           <div className="mt-6 pt-5 border-t border-stone-100 text-center text-xs sm:text-sm text-stone-600">
-            New to Kuzueats?{" "}
+            New to {BRAND_CONTACT.brandName}?{" "}
             <Link
               href="/contact"
               className="font-bold text-orange-600 hover:text-orange-700 transition"
@@ -186,7 +216,7 @@ export default function LoginPage() {
 
       {/* Bottom Note */}
       <p className="text-center text-xs text-stone-500">
-        © 2026 Kuzueats. Built for independent restaurants &amp; cafés.
+        © 2026 {BRAND_CONTACT.brandName}. Built for independent restaurants &amp; cafés.
       </p>
     </main>
   );

@@ -4,9 +4,9 @@ import Footer from "@/components/footer/Footer";
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFFBF5] text-[#1C1917]">
+    <div className="min-h-screen flex flex-col bg-[#FFFBF5] text-[#1C1917] scroll-smooth">
       <Navbar />
-      <main className="flex-1 pt-16">
+      <main className="flex-1 pt-16 transition-all duration-500">
         <ContactSection />
       </main>
       <Footer />
